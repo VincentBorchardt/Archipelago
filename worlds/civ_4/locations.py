@@ -52,7 +52,7 @@ def create_regular_locations(world: Civ4World) -> None:
     # You also need to pass your overridden Location class.
 
 
-def create_events(world: APQuestWorld) -> None:
+def create_events(world: Civ4World) -> None:
     # Sometimes, the player may perform in-game actions that allow them to progress which are not related to Items.
     # In our case, the player must press a button in the top left room to open the final boss door.
     # AP has something for this purpose: "Event locations" and "Event items".
