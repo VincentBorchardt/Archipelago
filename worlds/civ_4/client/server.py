@@ -24,34 +24,6 @@ class Civ4Context(CommonContext):
             pass
 
 
-
-def server_program():
-    # THIS NEEDS TO BE ITS OWN THING
-
-    # get the hostname
-    host = socket.gethostname()
-    port = 5000  # initiate port no above 1024
-
-    server_socket = socket.socket()  # get instance
-    # look closely. The bind() function takes tuple as argument
-    server_socket.bind((host, port))  # bind host address and port together
-
-    # configure how many client the server can listen simultaneously
-    server_socket.listen(2)
-    conn, address = server_socket.accept()  # accept new connection
-    print("Connection from: " + str(address))
-    while True:
-        # receive data stream. it won't accept data packet greater than 1024 bytes
-        data = conn.recv(1024).decode()
-        if not data:
-            # if data is not received break
-            break
-        print("from connected user: " + str(data))
-        data = input(' -> ')
-        conn.send(data.encode())  # send data to the client
-
-    conn.close()  # close the connection
-
 async def server_program_noninteractive():
     # THIS NEEDS TO BE ITS OWN THING
     print("starting server program")
@@ -63,25 +35,12 @@ async def server_program_noninteractive():
     print(host)
 
     server_socket = socket.socket()  # get instance
-    print("started socket")
-    #server_socket.setblocking(False)
     # look closely. The bind() function takes tuple as argument
     server_socket.bind((host, port))  # bind host address and port together
-    print("about to start listening")
 
     # configure how many client the server can listen simultaneously
     server_socket.listen(2)
-    #input = [server_socket]
-    await asyncio.sleep(0.1)
-    #inputready, outputready, exceptready = select.select(input, [], [], 0)
-    conn = None
-    address = None
-    print("about to enter the loop")
-    while conn is None:
-        print("starting loop")
-        conn, address = server_socket.accept()  # accept new connection
-        await asyncio.sleep(3)
-        print("did a loop")
+    conn, address = server_socket.accept()  # accept new connection
     print("Connection from: " + str(address))
     while True:
         # receive data stream. it won't accept data packet greater than 1024 bytes
@@ -99,17 +58,19 @@ async def async_server(reader, writer):
     while True:
         # receive data stream. it won't accept data packet greater than 1024 bytes
         data = await reader.read(1024)
+        data = data.decode()
         if not data:
             # if data is not received break
             break
         print("from connected user: " + str(data))
-        data = "This is a non-interactive test of stuff"
-        writer.write(data) # send data to the client
-        #await writer.drain()  # Flow control, see later
+        new_data = "This is a non-interactive test of stuff".encode()
+        #print(new_data)
+        writer.write(new_data)  # send data to the client
+        await writer.drain()  # Flow control, see later
+
 
 # DELETED 'args: Namespace' FROM THIS SINCE IT WOULDN'T RUN
 async def main() -> None:
-    print("in main")
 
     ctx = Civ4Context()
     ctx.server_task = asyncio.create_task(server_loop(ctx), name="server loop")
@@ -125,10 +86,10 @@ async def main() -> None:
     host = socket.gethostname()
     port = 5000  # initiate port no above 1024
 
-    server = await asyncio.start_server(async_server, host, port)
-    await server.serve_forever()
-
     #ctx.communication_task = asyncio.create_task(server_program_noninteractive(), name="communication loop")
+
+    server = await asyncio.start_server(async_server, host, port)
+    await server.start_serving()
 
     await ctx.exit_event.wait()
     await ctx.shutdown()
