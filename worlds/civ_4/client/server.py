@@ -9,6 +9,7 @@ from NetUtils import ClientStatus
 from Utils import gui_enabled
 
 import socket
+import select
 
 # APQuest overrides ClientCommandProcessor, I don't think I need to, at least not yet
 
@@ -19,7 +20,8 @@ class Civ4Context(CommonContext):
     communication_task = None
 
     async def civ4_loop(self):
-        pass
+        while not self.exit_event.is_set():
+            pass
 
 
 
@@ -52,18 +54,32 @@ def server_program():
 
 async def server_program_noninteractive():
     # THIS NEEDS TO BE ITS OWN THING
+    print("starting server program")
 
     # get the hostname
     host = socket.gethostname()
     port = 5000  # initiate port no above 1024
 
     server_socket = socket.socket()  # get instance
+    print("started socket")
+    #server_socket.setblocking(False)
     # look closely. The bind() function takes tuple as argument
     server_socket.bind((host, port))  # bind host address and port together
+    print("about to start listening")
 
     # configure how many client the server can listen simultaneously
     server_socket.listen(2)
-    conn, address = server_socket.accept()  # accept new connection
+    #input = [server_socket]
+    await asyncio.sleep(0.1)
+    #inputready, outputready, exceptready = select.select(input, [], [], 0)
+    conn = None
+    address = None
+    print("about to enter the loop")
+    while conn is None:
+        print("starting loop")
+        conn, address = server_socket.accept()  # accept new connection
+        await asyncio.sleep(3)
+        print("did a loop")
     print("Connection from: " + str(address))
     while True:
         # receive data stream. it won't accept data packet greater than 1024 bytes
@@ -79,6 +95,7 @@ async def server_program_noninteractive():
 
 # DELETED 'args: Namespace' FROM THIS SINCE IT WOULDN'T RUN
 async def main() -> None:
+    print("in main")
 
     ctx = Civ4Context()
     ctx.server_task = asyncio.create_task(server_loop(ctx), name="server loop")
