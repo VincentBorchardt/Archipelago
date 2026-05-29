@@ -60,6 +60,8 @@ async def server_program_noninteractive():
     host = socket.gethostname()
     port = 5000  # initiate port no above 1024
 
+    print(host)
+
     server_socket = socket.socket()  # get instance
     print("started socket")
     #server_socket.setblocking(False)
@@ -93,6 +95,18 @@ async def server_program_noninteractive():
 
     conn.close()  # close the connection
 
+async def async_server(reader, writer):
+    while True:
+        # receive data stream. it won't accept data packet greater than 1024 bytes
+        data = await reader.read(1024)
+        if not data:
+            # if data is not received break
+            break
+        print("from connected user: " + str(data))
+        data = "This is a non-interactive test of stuff"
+        writer.write(data) # send data to the client
+        #await writer.drain()  # Flow control, see later
+
 # DELETED 'args: Namespace' FROM THIS SINCE IT WOULDN'T RUN
 async def main() -> None:
     print("in main")
@@ -105,7 +119,16 @@ async def main() -> None:
     ctx.run_cli()
 
     # CLIENT LOOP STUFF GOES HERE
-    ctx.communication_task = asyncio.create_task(server_program_noninteractive(), name="communication loop")
+    # Presumably this needs to be replaced with a task something or other
+
+    # get the hostname
+    host = socket.gethostname()
+    port = 5000  # initiate port no above 1024
+
+    server = await asyncio.start_server(async_server, host, port)
+    await server.serve_forever()
+
+    #ctx.communication_task = asyncio.create_task(server_program_noninteractive(), name="communication loop")
 
     await ctx.exit_event.wait()
     await ctx.shutdown()
