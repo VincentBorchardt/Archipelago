@@ -9,16 +9,23 @@ from NetUtils import ClientStatus
 from Utils import gui_enabled
 
 import socket
-import socketserver
 
-class ArchipelagoHandler(socketserver.StreamRequestHandler):
-    def handle(self):
-        data = self.rfile.readline()
-        print("from connected user: " + str(data))
-        #data = input(' -> ')
-        self.wfile.write(data)
+# APQuest overrides ClientCommandProcessor, I don't think I need to, at least not yet
+
+class Civ4Context(CommonContext):
+    game = "Civilization IV"
+    items_handling = 0b111  # full remote
+
+    communication_task = None
+
+    async def civ4_loop(self):
+        pass
+
+
 
 def server_program():
+    # THIS NEEDS TO BE ITS OWN THING
+
     # get the hostname
     host = socket.gethostname()
     port = 5000  # initiate port no above 1024
@@ -43,11 +50,50 @@ def server_program():
 
     conn.close()  # close the connection
 
-def serverProgramB():
+async def server_program_noninteractive():
+    # THIS NEEDS TO BE ITS OWN THING
+
+    # get the hostname
     host = socket.gethostname()
     port = 5000  # initiate port no above 1024
-    server = socketserver.TCPServer((host, port), ArchipelagoHandler)
-    server.serve_forever()
+
+    server_socket = socket.socket()  # get instance
+    # look closely. The bind() function takes tuple as argument
+    server_socket.bind((host, port))  # bind host address and port together
+
+    # configure how many client the server can listen simultaneously
+    server_socket.listen(2)
+    conn, address = server_socket.accept()  # accept new connection
+    print("Connection from: " + str(address))
+    while True:
+        # receive data stream. it won't accept data packet greater than 1024 bytes
+        data = conn.recv(1024).decode()
+        if not data:
+            # if data is not received break
+            break
+        print("from connected user: " + str(data))
+        data = "This is a non-interactive test of stuff"
+        conn.send(data.encode())  # send data to the client
+
+    conn.close()  # close the connection
+
+# DELETED 'args: Namespace' FROM THIS SINCE IT WOULDN'T RUN
+async def main() -> None:
+
+    ctx = Civ4Context()
+    ctx.server_task = asyncio.create_task(server_loop(ctx), name="server loop")
+
+    if gui_enabled:
+        ctx.run_gui()
+    ctx.run_cli()
+
+    # CLIENT LOOP STUFF GOES HERE
+    ctx.communication_task = asyncio.create_task(server_program_noninteractive(), name="communication loop")
+
+    await ctx.exit_event.wait()
+    await ctx.shutdown()
 
 if __name__ == '__main__':
-    server_program()
+    #server_program()
+
+    asyncio.run(main())
