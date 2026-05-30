@@ -43,6 +43,15 @@ def get_random_filler_item_name(world: Civ4World) -> str:
         #return "Math Trap"
     return "5 Gold"
 
+def create_item_with_correct_classification(world: Civ4World, name: str) -> Civ4Item:
+    # Our world class must have a create_item() function that can create any of our items by name at any time.
+    # So, we make this helper function that creates the item by name with the correct classification.
+    # Note: This function's content could just be the contents of world.create_item in world.py directly,
+    # but it seemed nicer to have it in its own function over here in items.py.
+    classification = DEFAULT_ITEM_CLASSIFICATIONS[name]
+
+    return Civ4Item(name, classification, ITEM_NAME_TO_ID[name], world.player)
+
 def create_all_items(world: Civ4World) -> None:
     # This is the function in which we will create all the items that this world submits to the multiworld item pool.
     # There must be exactly as many items as there are locations.
