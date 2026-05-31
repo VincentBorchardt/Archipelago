@@ -23,6 +23,12 @@ class Civ4Context(CommonContext):
         while not self.exit_event.is_set():
             pass
 
+    async def server_auth(self, password_requested: bool = False):
+        if password_requested and not self.password:
+            await super(Civ4Context, self).server_auth(password_requested)
+        await self.get_username()
+        await self.send_connect()
+
     async def async_server(self, reader, writer):
         while True:
             # receive data stream. it won't accept data packet greater than 1024 bytes
@@ -35,6 +41,7 @@ class Civ4Context(CommonContext):
             self.server_address = login_info[0]
             self.auth = login_info[1]
             self.password = login_info[2]
+
             self.server_task = asyncio.create_task(server_loop(self), name="server loop")
             print("from connected user: " + str(login_info))
             new_data = "This is a non-interactive test of stuff".encode()
