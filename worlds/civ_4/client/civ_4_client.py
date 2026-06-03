@@ -10,6 +10,10 @@ from Utils import gui_enabled
 
 import socket
 import select
+import json
+
+# TODO NEED TO WRITE A SAFE UNPICKLER!!!
+import pickle
 
 # APQuest overrides ClientCommandProcessor, I don't think I need to, at least not yet
 
@@ -33,20 +37,25 @@ class Civ4Context(CommonContext):
         while True:
             # receive data stream. it won't accept data packet greater than 1024 bytes
             data = await reader.read(1024)
-            data = data.decode()
+            #data = data.decode()
+
             if not data:
                 # if data is not received break
                 break
-            login_info = data.split(';')
-            self.server_address = login_info[0]
-            self.auth = login_info[1]
-            self.password = login_info[2]
+            converted_data = pickle.loads(data)
+            if converted_data["type"] == "connect":
+                self.server_address = converted_data["server"]
+                self.auth = converted_data["username"]
+                self.password = converted_data["password"]
 
             self.server_task = asyncio.create_task(server_loop(self), name="server loop")
-            print("from connected user: " + str(login_info))
+            print("from connected user: " + str(converted_data))
             new_data = "This is a non-interactive test of stuff".encode()
             writer.write(new_data)  # send data to the client
             await writer.drain()  # Flow control, see later
+
+    def on_package(self, cmd: str, args: dict[str, Any]) -> None:
+        pass
 
 # DELETED 'args: Namespace' FROM THIS SINCE IT WOULDN'T RUN
 async def main() -> None:
