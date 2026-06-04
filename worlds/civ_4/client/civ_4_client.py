@@ -15,6 +15,9 @@ import json
 # TODO NEED TO WRITE A SAFE UNPICKLER!!!
 import pickle
 
+server_for_civ_4 = None
+civ_4_writer = None
+
 # APQuest overrides ClientCommandProcessor, I don't think I need to, at least not yet
 
 class Civ4Context(CommonContext):
@@ -34,6 +37,9 @@ class Civ4Context(CommonContext):
         await self.send_connect()
 
     async def async_server(self, reader, writer):
+        global civ_4_writer
+        civ_4_writer = writer
+
         while True:
             # receive data stream. it won't accept data packet greater than 1024 bytes
             data = await reader.read(1024)
@@ -50,17 +56,30 @@ class Civ4Context(CommonContext):
 
             self.server_task = asyncio.create_task(server_loop(self), name="server loop")
             print("from connected user: " + str(converted_data))
-            new_data = "This is a non-interactive test of stuff".encode()
-            writer.write(new_data)  # send data to the client
-            await writer.drain()  # Flow control, see later
+            #new_data = "This is a non-interactive test of stuff".encode()
+            #writer.write(new_data)  # send data to the client
+            #await writer.drain()  # Flow control, see later
+
+    async def send_message_to_civ_4(self, cmd: str, args: dict[str, Any]) -> None:
+        print(str(args))
+        message_dict = {"cmd": cmd}
+        message_pickle = pickle.dumps(message_dict, protocol=2)
+        civ_4_writer.write(message_pickle)
+        await civ_4_writer.drain()
 
     def on_package(self, cmd: str, args: dict[str, Any]) -> None:
-        pass
+        print("cmd = " + str(cmd))
+        if cmd == "ConnectionRefused":
+            self.send_message_to_civ_4(cmd, args)
+        if cmd == "Connected":
+            print("args = " + str(args))
+            self.send_message_to_civ_4(cmd, args)
 
 # DELETED 'args: Namespace' FROM THIS SINCE IT WOULDN'T RUN
 async def main() -> None:
 
     ctx = Civ4Context()
+    global server_for_civ_4
     #ctx.server_task = asyncio.create_task(server_loop(ctx), name="server loop")
 
     if gui_enabled:
@@ -75,8 +94,8 @@ async def main() -> None:
 
     #ctx.communication_task = asyncio.create_task(server_program_noninteractive(), name="communication loop")
 
-    server = await asyncio.start_server(ctx.async_server, host, port)
-    await server.start_serving()
+    server_for_civ_4 = await asyncio.start_server(ctx.async_server, host, port)
+    await server_for_civ_4.start_serving()
 
     await ctx.exit_event.wait()
     await ctx.shutdown()
