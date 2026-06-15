@@ -43,7 +43,6 @@ class Civ4Context(CommonContext):
         while True:
             # receive data stream. it won't accept data packet greater than 1024 bytes
             data = await reader.read(1024)
-            #data = data.decode()
 
             if not data:
                 # if data is not received break
@@ -53,21 +52,19 @@ class Civ4Context(CommonContext):
                 self.server_address = converted_data["server"]
                 self.auth = converted_data["username"]
                 self.password = converted_data["password"]
-
-            self.server_task = asyncio.create_task(server_loop(self), name="server loop")
+                self.server_task = asyncio.create_task(server_loop(self), name="server loop")
+            elif converted_data["type"] == "LocationChecks":
+                locations = converted_data["locations"]
+                await self.check_locations(locations)
             print("from connected user: " + str(converted_data))
-            #new_data = "This is a non-interactive test of stuff".encode()
-            #writer.write(new_data)  # send data to the client
-            #await writer.drain()  # Flow control, see later
+
 
     def send_message_to_civ_4(self, cmd: str, args: dict[str, Any]) -> None:
         print(str(args))
         message_dict = {"cmd": cmd}
         message_pickle = pickle.dumps(message_dict, protocol=2)
         civ_4_writer.write(message_pickle)
-        print("after write")
         civ_4_writer.drain()
-        print("after drain")
 
     def on_package(self, cmd: str, args: dict[str, Any]) -> None:
         print("cmd = " + str(cmd))
@@ -79,6 +76,7 @@ class Civ4Context(CommonContext):
     
     def handle_connection_loss(self, msg: str) -> None:
         super().handle_connection_loss(msg)
+        # I think this might break stuff with the new format
         self.send_message_to_civ_4("ConnectionLoss", {"msg": msg})
         
 
