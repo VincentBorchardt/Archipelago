@@ -60,12 +60,14 @@ class Civ4Context(CommonContext):
             #writer.write(new_data)  # send data to the client
             #await writer.drain()  # Flow control, see later
 
-    async def send_message_to_civ_4(self, cmd: str, args: dict[str, Any]) -> None:
+    def send_message_to_civ_4(self, cmd: str, args: dict[str, Any]) -> None:
         print(str(args))
         message_dict = {"cmd": cmd}
         message_pickle = pickle.dumps(message_dict, protocol=2)
         civ_4_writer.write(message_pickle)
-        await civ_4_writer.drain()
+        print("after write")
+        civ_4_writer.drain()
+        print("after drain")
 
     def on_package(self, cmd: str, args: dict[str, Any]) -> None:
         print("cmd = " + str(cmd))
@@ -74,6 +76,11 @@ class Civ4Context(CommonContext):
         if cmd == "Connected":
             print("args = " + str(args))
             self.send_message_to_civ_4(cmd, args)
+    
+    def handle_connection_loss(self, msg: str) -> None:
+        super().handle_connection_loss(msg)
+        self.send_message_to_civ_4("ConnectionLoss", {"msg": msg})
+        
 
 # DELETED 'args: Namespace' FROM THIS SINCE IT WOULDN'T RUN
 async def main() -> None:
