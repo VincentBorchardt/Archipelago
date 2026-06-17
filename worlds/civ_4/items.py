@@ -10,6 +10,8 @@ if TYPE_CHECKING:
 # Every item must have a unique integer ID associated with it.
 # We will have a lookup from item name to ID here that, in world.py, we will import and bind to the world class.
 # Even if an item doesn't exist on specific options, it must be present in this lookup.
+
+# TODO All Techs should be 1 to 999, then other stuff above that
 ITEM_NAME_TO_ID = {
     "Agriculture": 1,
     "5 Gold": 2,

@@ -5,7 +5,7 @@ from enum import Enum
 from typing import TYPE_CHECKING, Any
 
 from CommonClient import ClientCommandProcessor, CommonContext, logger, server_loop
-from NetUtils import ClientStatus
+from NetUtils import ClientStatus, NetworkItem
 from Utils import gui_enabled
 
 import socket
@@ -18,11 +18,15 @@ import pickle
 server_for_civ_4 = None
 civ_4_writer = None
 
+
 # APQuest overrides ClientCommandProcessor, I don't think I need to, at least not yet
 
 class Civ4Context(CommonContext):
     game = "Civilization IV"
     items_handling = 0b111  # full remote
+
+    # TODO force the client closed and/or reset this when the game is closed
+    send_index = 0
 
     #communication_task = None
 
@@ -48,20 +52,39 @@ class Civ4Context(CommonContext):
                 # if data is not received break
                 break
             converted_data = pickle.loads(data)
-            if converted_data["type"] == "connect":
+            if converted_data["type"] == "Connect":
                 self.server_address = converted_data["server"]
                 self.auth = converted_data["username"]
                 self.password = converted_data["password"]
                 self.server_task = asyncio.create_task(server_loop(self), name="server loop")
+            # TODO Put a "connect" here that doesn't send anything back unless things break
             elif converted_data["type"] == "LocationChecks":
                 locations = converted_data["locations"]
                 await self.check_locations(locations)
+            elif converted_data["type"] == "ReceiveItems":
+                items = []
+                print(self.items_received)
+                while self.send_index < len(self.items_received):
+                    transfer_item: NetworkItem = self.items_received[self.send_index]
+                    item_id = transfer_item.item
+                    player_name = self.player_names[transfer_item.player]
+                    item_name = self.item_names.lookup_in_game(item_id)
+                    item_dict = {"item_id": item_id, "player": player_name, "name": item_name, "index": self.send_index}
+                    items.append(item_dict)
+                    self.send_index += 1
+                self.send_message_to_civ_4("ReceiveItems", {"items": items})
+
             print("from connected user: " + str(converted_data))
 
-
     def send_message_to_civ_4(self, cmd: str, args: dict[str, Any]) -> None:
+        if civ_4_writer is None:
+            print(f"Cannot send '{cmd}': Civilization 4 client is not connected yet.")
+            return
         print(str(args))
         message_dict = {"cmd": cmd}
+        # TODO make this more general without putting something in the pickle Civ4 will choke on
+        if args and cmd == "ReceiveItems":
+            message_dict = args | message_dict
         message_pickle = pickle.dumps(message_dict, protocol=2)
         civ_4_writer.write(message_pickle)
         civ_4_writer.drain()
@@ -73,16 +96,15 @@ class Civ4Context(CommonContext):
         if cmd == "Connected":
             print("args = " + str(args))
             self.send_message_to_civ_4(cmd, args)
-    
+
     def handle_connection_loss(self, msg: str) -> None:
         super().handle_connection_loss(msg)
         # I think this might break stuff with the new format
-        self.send_message_to_civ_4("ConnectionLoss", {"msg": msg})
-        
+        #self.send_message_to_civ_4("ConnectionLoss", {"msg": msg})
+
 
 # DELETED 'args: Namespace' FROM THIS SINCE IT WOULDN'T RUN
 async def main() -> None:
-
     ctx = Civ4Context()
     global server_for_civ_4
     #ctx.server_task = asyncio.create_task(server_loop(ctx), name="server loop")
@@ -104,6 +126,7 @@ async def main() -> None:
 
     await ctx.exit_event.wait()
     await ctx.shutdown()
+
 
 if __name__ == '__main__':
     asyncio.run(main())
