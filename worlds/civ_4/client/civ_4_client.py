@@ -6,7 +6,7 @@ import typing
 from typing import TYPE_CHECKING, Any
 
 from CommonClient import ClientCommandProcessor, CommonContext, logger, server_loop
-from NetUtils import ClientStatus, NetworkItem, HintStatus, JSONtoTextParser
+from NetUtils import ClientStatus, NetworkItem, HintStatus
 from Utils import gui_enabled
 
 import socket
@@ -42,12 +42,6 @@ class Civ4Context(CommonContext):
 
     # TODO force the client closed and/or reset this when the game is closed
     send_index = 0
-
-    parser = None
-
-    def __init__(self):
-        parser = JSONtoTextParser(self)
-        super().__init__()
 
     #communication_task = None
 
@@ -101,47 +95,44 @@ class Civ4Context(CommonContext):
                 data = []
                 for hint in hints_tuples:
                     print("in hint for loop")
-                    if not hint.get("status"):  # Allows connecting to old servers
-                        hint["status"] = HintStatus.HINT_FOUND if hint["found"] else HintStatus.HINT_UNSPECIFIED
-                        print("caught in first if")
-                    print("after first if")
-                    hint_status_node = self.parser.handle_node({"type": "color",
-                                                                "color": status_colors.get(hint["status"], "red"),
-                                                                "text": status_names.get(hint["status"], "Unknown")})
-                    print("after first parse")
-                    if hint["status"] != HintStatus.HINT_FOUND and self.slot_concerns_self(hint["receiving_player"]):
-                        hint_status_node = f"[u]{hint_status_node}[/u]"
-                        print("caught in second if")
-                    print("about to start append")
-                    data.append({
-                        "receiving": {
-                            "text": self.parser.handle_node({"type": "player_id", "text": hint["receiving_player"]})},
-                        "item": {"text": self.parser.handle_node({
-                            "type": "item_id",
-                            "text": hint["item"],
-                            "flags": hint["item_flags"],
-                            "player": hint["receiving_player"],
-                        })},
-                        "finding": {
-                            "text": self.parser.handle_node({"type": "player_id", "text": hint["finding_player"]})},
-                        "location": {"text": self.parser.handle_node({
-                            "type": "location_id",
-                            "text": hint["location"],
-                            "player": hint["finding_player"],
-                        })},
-                        "entrance": {"text": self.parser.handle_node({"type": "color" if hint["entrance"] else "text",
-                                                                      "color": "blue", "text": hint["entrance"]
-                            if hint["entrance"] else "Vanilla"})},
-                        "status": {
-                            "text": hint_status_node,
-                            "hint": hint,
-                        },
-                    })
+                    data.append(self.parse_hint(hint))
                     print("end of for loop")
                 print("out of for loop")
                 print(data)
 
             print("from connected user: " + str(converted_data))
+
+    def parse_hint(self, hint):
+        if not hint.get("status"):  # Allows connecting to old servers
+            hint["status"] = HintStatus.HINT_FOUND if hint["found"] else HintStatus.HINT_UNSPECIFIED
+        print("after first if")
+        hint_status_node = {"color": status_colors.get(hint["status"], "red"),
+                            "text": status_names.get(hint["status"], "Unknown")}
+        if hint["status"] != HintStatus.HINT_FOUND and self.slot_concerns_self(hint["receiving_player"]):
+            hint_status_node = f"[u]{hint_status_node}[/u]"
+            print("caught in second if")
+        receiving_player = self.player_names[hint["receiving_player"]]
+        finding_player = self.player_names[hint["finding_player"]]
+        item_name = self.item_names.lookup_in_slot(hint["item"], hint["receiving_player"])
+        location_name = self.location_names.lookup_in_slot(hint["location"], hint["finding_player"])
+        result_dict = {
+            "receiving": receiving_player,
+            "item": {
+                "text": item_name,
+                "flags": hint["item_flags"], # this needs to be changed
+                "player": receiving_player,
+            },
+            "finding": finding_player,
+            "location": {
+                "text": location_name,
+                "player": finding_player,
+            },
+            "entrance": {"type": "color" if hint["entrance"] else "text",
+                         "color": "blue", "text": hint["entrance"] if hint["entrance"] else "Vanilla"},
+            "status": hint_status_node,
+            }
+        return result_dict
+
 
     def send_message_to_civ_4(self, cmd: str, args: dict[str, Any]) -> None:
         if civ_4_writer is None:
