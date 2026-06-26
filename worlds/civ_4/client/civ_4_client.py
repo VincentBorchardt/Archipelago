@@ -2,10 +2,11 @@ import asyncio
 import sys
 from argparse import Namespace
 from enum import Enum
+import typing
 from typing import TYPE_CHECKING, Any
 
 from CommonClient import ClientCommandProcessor, CommonContext, logger, server_loop
-from NetUtils import ClientStatus, NetworkItem
+from NetUtils import ClientStatus, NetworkItem, HintStatus, JSONtoTextParser
 from Utils import gui_enabled
 
 import socket
@@ -18,6 +19,20 @@ import pickle
 server_for_civ_4 = None
 civ_4_writer = None
 
+status_names: typing.Dict[HintStatus, str] = {
+    HintStatus.HINT_FOUND: "Found",
+    HintStatus.HINT_UNSPECIFIED: "Unspecified",
+    HintStatus.HINT_NO_PRIORITY: "No Priority",
+    HintStatus.HINT_AVOID: "Avoid",
+    HintStatus.HINT_PRIORITY: "Priority",
+}
+status_colors: typing.Dict[HintStatus, str] = {
+    HintStatus.HINT_FOUND: "green",
+    HintStatus.HINT_UNSPECIFIED: "white",
+    HintStatus.HINT_NO_PRIORITY: "cyan",
+    HintStatus.HINT_AVOID: "salmon",
+    HintStatus.HINT_PRIORITY: "plum",
+}
 
 # APQuest overrides ClientCommandProcessor, I don't think I need to, at least not yet
 
@@ -27,6 +42,12 @@ class Civ4Context(CommonContext):
 
     # TODO force the client closed and/or reset this when the game is closed
     send_index = 0
+
+    parser = None
+
+    def __init__(self):
+        parser = JSONtoTextParser(self)
+        super().__init__()
 
     #communication_task = None
 
@@ -73,6 +94,52 @@ class Civ4Context(CommonContext):
                     items.append(item_dict)
                     self.send_index += 1
                 self.send_message_to_civ_4("ReceiveItems", {"items": items})
+            elif converted_data["type"] == "GetHints":
+                print(str(self.stored_data))
+                hints_tuples = self.stored_data.get(f"_read_hints_{self.team}_{self.slot}", [])
+                print(str(hints_tuples))
+                data = []
+                for hint in hints_tuples:
+                    print("in hint for loop")
+                    if not hint.get("status"):  # Allows connecting to old servers
+                        hint["status"] = HintStatus.HINT_FOUND if hint["found"] else HintStatus.HINT_UNSPECIFIED
+                        print("caught in first if")
+                    print("after first if")
+                    hint_status_node = self.parser.handle_node({"type": "color",
+                                                                "color": status_colors.get(hint["status"], "red"),
+                                                                "text": status_names.get(hint["status"], "Unknown")})
+                    print("after first parse")
+                    if hint["status"] != HintStatus.HINT_FOUND and self.slot_concerns_self(hint["receiving_player"]):
+                        hint_status_node = f"[u]{hint_status_node}[/u]"
+                        print("caught in second if")
+                    print("about to start append")
+                    data.append({
+                        "receiving": {
+                            "text": self.parser.handle_node({"type": "player_id", "text": hint["receiving_player"]})},
+                        "item": {"text": self.parser.handle_node({
+                            "type": "item_id",
+                            "text": hint["item"],
+                            "flags": hint["item_flags"],
+                            "player": hint["receiving_player"],
+                        })},
+                        "finding": {
+                            "text": self.parser.handle_node({"type": "player_id", "text": hint["finding_player"]})},
+                        "location": {"text": self.parser.handle_node({
+                            "type": "location_id",
+                            "text": hint["location"],
+                            "player": hint["finding_player"],
+                        })},
+                        "entrance": {"text": self.parser.handle_node({"type": "color" if hint["entrance"] else "text",
+                                                                      "color": "blue", "text": hint["entrance"]
+                            if hint["entrance"] else "Vanilla"})},
+                        "status": {
+                            "text": hint_status_node,
+                            "hint": hint,
+                        },
+                    })
+                    print("end of for loop")
+                print("out of for loop")
+                print(data)
 
             print("from connected user: " + str(converted_data))
 
