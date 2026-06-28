@@ -94,45 +94,39 @@ class Civ4Context(CommonContext):
                 print(str(hints_tuples))
                 data = []
                 for hint in hints_tuples:
-                    print("in hint for loop")
                     data.append(self.parse_hint(hint))
-                    print("end of for loop")
-                print("out of for loop")
                 print(data)
+                hint_dict = {"hints" : data}
+                self.send_message_to_civ_4("GetHints", hint_dict)
 
             print("from connected user: " + str(converted_data))
 
     def parse_hint(self, hint):
         if not hint.get("status"):  # Allows connecting to old servers
             hint["status"] = HintStatus.HINT_FOUND if hint["found"] else HintStatus.HINT_UNSPECIFIED
-        print("after first if")
-        hint_status_node = {"color": status_colors.get(hint["status"], "red"),
-                            "text": status_names.get(hint["status"], "Unknown")}
-        if hint["status"] != HintStatus.HINT_FOUND and self.slot_concerns_self(hint["receiving_player"]):
-            hint_status_node = f"[u]{hint_status_node}[/u]"
-            print("caught in second if")
-        receiving_player = self.player_names[hint["receiving_player"]]
-        finding_player = self.player_names[hint["finding_player"]]
-        item_name = self.item_names.lookup_in_slot(hint["item"], hint["receiving_player"])
-        location_name = self.location_names.lookup_in_slot(hint["location"], hint["finding_player"])
         result_dict = {
-            "receiving": receiving_player,
-            "item": {
-                "text": item_name,
-                "flags": hint["item_flags"], # this needs to be changed
-                "player": receiving_player,
-            },
-            "finding": finding_player,
-            "location": {
-                "text": location_name,
-                "player": finding_player,
-            },
-            "entrance": {"type": "color" if hint["entrance"] else "text",
-                         "color": "blue", "text": hint["entrance"] if hint["entrance"] else "Vanilla"},
-            "status": hint_status_node,
+            "receiving_player": self.player_names[hint["receiving_player"]],
+            "item": self.item_names.lookup_in_slot(hint["item"], hint["receiving_player"]),
+            "item_type": self.parse_flags(hint["item_flags"]),
+            "finding_player": self.player_names[hint["finding_player"]],
+            "location": self.location_names.lookup_in_slot(hint["location"], hint["finding_player"]),
+            "entrance": hint["entrance"] if hint["entrance"] else "Vanilla",
+            "status": status_names.get(hint["status"], "Unknown"),
             }
         return result_dict
 
+    def parse_flags(self, flags):
+        # TODO Figure out how combinations of flags work (Progression + Useful, etc)
+        if flags == 0:
+            return "Filler"
+        elif flags & 0b001:  # advancement
+            return "Progression"
+        elif flags & 0b010:  # useful
+            return "Useful"
+        elif flags & 0b100:  # trap
+            return "Trap"
+        else:
+            return "Filler"
 
     def send_message_to_civ_4(self, cmd: str, args: dict[str, Any]) -> None:
         if civ_4_writer is None:
@@ -142,6 +136,8 @@ class Civ4Context(CommonContext):
         message_dict = {"cmd": cmd}
         # TODO make this more general without putting something in the pickle Civ4 will choke on
         if args and cmd == "ReceiveItems":
+            message_dict = args | message_dict
+        if args and cmd == "GetHints":
             message_dict = args | message_dict
         message_pickle = pickle.dumps(message_dict, protocol=2)
         civ_4_writer.write(message_pickle)
