@@ -98,6 +98,11 @@ class Civ4Context(CommonContext):
                 print(data)
                 hint_dict = {"hints" : data}
                 self.send_message_to_civ_4("GetHints", hint_dict)
+            elif converted_data["type"] == "Command":
+                command = converted_data["cmd"]
+                if command:
+                    commandprocessor = self.command_processor(self)
+                    commandprocessor(command)
 
             print("from connected user: " + str(converted_data))
 
@@ -150,6 +155,9 @@ class Civ4Context(CommonContext):
         if cmd == "Connected":
             print("args = " + str(args))
             self.send_message_to_civ_4(cmd, args)
+        if cmd == "PrintJSON":
+            # TODO make this batch data in a list, so it can be specifically requested later
+            #print(args.get("data"))
 
     def handle_connection_loss(self, msg: str) -> None:
         super().handle_connection_loss(msg)
