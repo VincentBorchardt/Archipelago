@@ -156,6 +156,7 @@ class Civ4Context(CommonContext):
             print("args = " + str(args))
             self.send_message_to_civ_4(cmd, args)
         if cmd == "PrintJSON":
+            pass
             # TODO make this batch data in a list, so it can be specifically requested later
             #print(args.get("data"))
 
