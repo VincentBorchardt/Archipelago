@@ -105,7 +105,7 @@ ITEM_NAME_TO_ID = {
     "Genetics": 90,
     "Stealth": 91,
     "Future Tech": 92,
-    "5 Gold": 1000,
+    "5 Gold": 1001,
 }
 
 
