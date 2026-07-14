@@ -129,6 +129,13 @@ def create_and_connect_regions(world: Civ4World) -> None:
 def create_all_regions(world: Civ4World) -> None:
     # Creating a region is as simple as calling the constructor of the Region class.
     initial = Region("Initial", world.player, world.multiworld)
+    gsci_access = Region("Great Scientist Access", world.player, world.multiworld)
+    ga_access = Region("Great Artist Access", world.player, world.multiworld)
+    gm_access = Region("Great Merchant Access", world.player, world.multiworld)
+    gspy_access = Region("Great Spy Access", world.player, world.multiworld)
+    gg_access = Region("Great General Access", world.player, world.multiworld)
+    gp_access = Region("Great Prophet Access", world.player, world.multiworld)
+    ge_access = Region("Great Engineer Access", world.player, world.multiworld)
 
     # Let's put all these regions in a list.
     regions = [initial]
