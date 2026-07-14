@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from BaseClasses import Entrance, Region
+from test.hosting import world
 
 if TYPE_CHECKING:
     from .world import Civ4World
@@ -129,19 +130,65 @@ def create_and_connect_regions(world: Civ4World) -> None:
 def create_all_regions(world: Civ4World) -> None:
     # Creating a region is as simple as calling the constructor of the Region class.
     initial = Region("Initial", world.player, world.multiworld)
-    gsci_access = Region("Great Scientist Access", world.player, world.multiworld)
-    ga_access = Region("Great Artist Access", world.player, world.multiworld)
-    gm_access = Region("Great Merchant Access", world.player, world.multiworld)
-    gspy_access = Region("Great Spy Access", world.player, world.multiworld)
-    gg_access = Region("Great General Access", world.player, world.multiworld)
-    gp_access = Region("Great Prophet Access", world.player, world.multiworld)
-    ge_access = Region("Great Engineer Access", world.player, world.multiworld)
 
     # Let's put all these regions in a list.
     regions = [initial]
 
     # We now need to add these regions to multiworld.regions so that AP knows about their existence.
     world.multiworld.regions += regions
+
+    if world.options.techsanity and world.options.techsanity_era_gates:
+        tech_regions = create_tech_regions(world)
+        world.multiworld.regions += tech_regions
+
+    if world.options.gpsanity > 0:
+        gp_regions = create_gp_regions(world)
+        world.multiworld.regions += gp_regions
+
+
+
+
+
+
+def create_tech_regions(world: Civ4World) -> list[Region]:
+    classical_access = Region("Classical Tech Access", world.player, world.multiworld)
+    medieval_access = Region("Medieval Tech Access", world.player, world.multiworld)
+    renaissance_access = Region("Renaissance Tech Access", world.player, world.multiworld)
+    industrial_access = Region("Industrial Tech Access", world.player, world.multiworld)
+    modern_access = Region("Modern Tech Access", world.player, world.multiworld)
+    future_access = Region("Future Tech Access", world.player, world.multiworld)
+
+    regions = [
+        classical_access,
+        medieval_access,
+        renaissance_access,
+        industrial_access,
+        modern_access,
+        future_access
+    ]
+
+    return regions
+
+def create_gp_regions(world: Civ4World) -> list[Region]:
+    great_scientist_access = Region("Great Scientist Access", world.player, world.multiworld)
+    great_artist_access = Region("Great Artist Access", world.player, world.multiworld)
+    great_merchant_access = Region("Great Merchant Access", world.player, world.multiworld)
+    great_spy_access = Region("Great Spy Access", world.player, world.multiworld)
+    great_general_access = Region("Great General Access", world.player, world.multiworld)
+    great_prophet_access = Region("Great Prophet Access", world.player, world.multiworld)
+    great_engineer_access = Region("Great Engineer Access", world.player, world.multiworld)
+
+    regions = [
+        great_scientist_access,
+        great_artist_access,
+        great_merchant_access,
+        great_spy_access,
+        great_general_access,
+        great_prophet_access,
+        great_engineer_access
+    ]
+
+    return regions
 
 def connect_regions(world: Civ4World) -> None:
     # We have regions now, but still need to connect them to each other.

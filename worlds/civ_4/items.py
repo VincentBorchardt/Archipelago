@@ -226,15 +226,6 @@ class Civ4Item(Item):
 # To do this, it must define a function called world.get_filler_item_name(), which we will define in world.py later.
 # For now, let's make a function that returns the name of a random filler item here in items.py.
 def get_random_filler_item_name(world: Civ4World) -> str:
-    # APQuest has an option called "trap_chance".
-    # This is the percentage chance that each filler item is a Math Trap instead of a Confetti Cannon.
-    # For this purpose, we need to use a random generator.
-
-    # IMPORTANT: Whenever you need to use a random generator, you must use world.random.
-    # This ensures that generating with the same generator seed twice yields the same output.
-    # DO NOT use a bare random object from Python's built-in random module.
-    #if world.random.randint(0, 99) < world.options.trap_chance:
-        #return "Math Trap"
     return "5 Gold"
 
 def create_item_with_correct_classification(world: Civ4World, name: str) -> Civ4Item:
@@ -244,8 +235,7 @@ def create_item_with_correct_classification(world: Civ4World, name: str) -> Civ4
     # but it seemed nicer to have it in its own function over here in items.py.
     classification = DEFAULT_ITEM_CLASSIFICATIONS[name]
 
-    # TODO make a "USEFUL_WONDER_TECHS" array outside of here to change things from useful to progression
-    # This is needed when I implement constructing wonders as checks
+    # TODO check the useful_wonder_techs and change their classification when wondersanity is implemented
 
     return Civ4Item(name, classification, ITEM_NAME_TO_ID[name], world.player)
 
@@ -265,7 +255,6 @@ def create_all_items(world: Civ4World) -> None:
 
     # Archipelago requires that each world submits as many locations as it submits items.
     # This is where we can use our filler and trap items.
-    # APQuest has two of these: The Confetti Cannon and the Math Trap.
     # (Unfortunately, Archipelago is a bit ambiguous about its terminology here:
     #  "filler" is an ItemClassification separate from "trap", but in a lot of its functions,
     #  Archipelago will use "filler" to just mean "an additional item created to fill out the itempool".

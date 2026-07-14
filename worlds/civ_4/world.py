@@ -4,10 +4,15 @@ from worlds.AutoWorld import World
 
 from . import items, locations, regions, rules
 #from . import web_world
-#from . import options as apquest_options  # rename due to a name conflict with World.options
+from . import options as civ4_options  # rename due to a name conflict with World.options
 
 class Civ4World(World):
     game = "Civilization IV"
+
+    # This is how we associate the options defined in our options.py with our world.
+    # (Note: options.py has been imported as "civ4_options" at the top of this file to avoid a name conflict)
+    options_dataclass = civ4_options.Civ4Options
+    options: civ4_options.Civ4Options  # Common mistake: This has to be a colon (:), not an equals sign (=).
 
     # Our world class must have a static location_name_to_id and item_name_to_id defined.
     # We define these in regions.py and items.py respectively, so we just set them here.
