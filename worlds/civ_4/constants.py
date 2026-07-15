@@ -27,7 +27,7 @@ LOCATION_NAME_TO_ID = {
     "Archipelago Alphabet": 19,
     "Archipelago Mathematics": 20,
     "Archipelago Construction": 21,
-    "Archipelago Code Of Laws": 22,
+    "Archipelago Code of Laws": 22,
     "Archipelago Metal Casting": 23,
     "Archipelago Compass": 24,
     "Archipelago Currency": 25,
