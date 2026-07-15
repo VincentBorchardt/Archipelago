@@ -8,7 +8,7 @@ if TYPE_CHECKING:
     from .world import Civ4World
 
 def gated_techsanity(world) -> bool:
-    return world.options.techsanity and world.options.techsanity_era_gates
+    return world.options.techsanity and world.options.techsanity_era_gates > 0
 
 def create_and_connect_regions(world: Civ4World) -> None:
     create_all_regions(world)

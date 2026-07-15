@@ -4,9 +4,7 @@ from typing import TYPE_CHECKING
 
 from BaseClasses import Location
 
-from .constants import LOCATION_NAME_TO_ID, ARCHIPELAGO_ANCIENT_TECHS, ARCHIPELAGO_CLASSICAL_TECHS, \
-    ARCHIPELAGO_MEDIEVAL_TECHS, ARCHIPELAGO_RENAISSANCE_TECHS, ARCHIPELAGO_INDUSTRIAL_TECHS, ARCHIPELAGO_MODERN_TECHS, \
-    ARCHIPELAGO_FUTURE_TECHS
+from . import constants
 
 if TYPE_CHECKING:
     from .world import Civ4World
@@ -25,7 +23,7 @@ class Civ4Location(Location):
 # Note: There is a minor typing quirk here. Some functions want location addresses to be an "int | None",
 # so while our function here only ever returns dict[str, int], we annotate it as dict[str, int | None].
 def get_location_names_with_ids(location_names: list[str]) -> dict[str, int | None]:
-    return {location_name: LOCATION_NAME_TO_ID[location_name] for location_name in location_names}
+    return {location_name: constants.LOCATION_NAME_TO_ID[location_name] for location_name in location_names}
 
 def create_all_locations(world: Civ4World) -> None:
     create_regular_locations(world)
@@ -43,13 +41,13 @@ def create_regular_locations(world: Civ4World) -> None:
     # You also need to pass your overridden Location class.
 
     if world.options.techsanity:
-        ancient_techs = get_location_names_with_ids(ARCHIPELAGO_ANCIENT_TECHS)
-        classical_techs = get_location_names_with_ids(ARCHIPELAGO_CLASSICAL_TECHS)
-        medieval_techs = get_location_names_with_ids(ARCHIPELAGO_MEDIEVAL_TECHS)
-        renaissance_techs = get_location_names_with_ids(ARCHIPELAGO_RENAISSANCE_TECHS)
-        industrial_techs = get_location_names_with_ids(ARCHIPELAGO_INDUSTRIAL_TECHS)
-        modern_techs = get_location_names_with_ids(ARCHIPELAGO_MODERN_TECHS)
-        future_techs = get_location_names_with_ids(ARCHIPELAGO_FUTURE_TECHS)
+        ancient_techs = get_location_names_with_ids(constants.ARCHIPELAGO_ANCIENT_TECHS)
+        classical_techs = get_location_names_with_ids(constants.ARCHIPELAGO_CLASSICAL_TECHS)
+        medieval_techs = get_location_names_with_ids(constants.ARCHIPELAGO_MEDIEVAL_TECHS)
+        renaissance_techs = get_location_names_with_ids(constants.ARCHIPELAGO_RENAISSANCE_TECHS)
+        industrial_techs = get_location_names_with_ids(constants.ARCHIPELAGO_INDUSTRIAL_TECHS)
+        modern_techs = get_location_names_with_ids(constants.ARCHIPELAGO_MODERN_TECHS)
+        future_techs = get_location_names_with_ids(constants.ARCHIPELAGO_FUTURE_TECHS)
 
         initial.add_locations(ancient_techs, Civ4Location)
 
@@ -73,7 +71,7 @@ def create_regular_locations(world: Civ4World) -> None:
             initial.add_locations(industrial_techs, Civ4Location)
             initial.add_locations(modern_techs, Civ4Location)
             initial.add_locations(future_techs, Civ4Location)
-        
+
 
 
 

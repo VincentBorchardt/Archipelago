@@ -30,7 +30,8 @@ def set_all_location_rules(world: Civ4World) -> None:
     # However, our two enemies work differently.
     # Entering the room with the enemy is not enough, you also need to have enough combat items to be able to defeat it.
     # So, we need to set requirements on the Locations themselves.
-    set_tech_rules(world)
+    if world.options.techsanity:
+        set_tech_rules(world)
 
 def set_completion_condition(world: Civ4World) -> None:
     # Finally, we need to set a completion condition for our world, defining what the player needs to win the game.
