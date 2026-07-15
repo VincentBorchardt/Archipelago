@@ -2,126 +2,13 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from BaseClasses import Entrance, Region
-from test.hosting import world
+from BaseClasses import Region
 
 if TYPE_CHECKING:
     from .world import Civ4World
 
-ANCIENT_TECHS = [
-    "The Wheel",
-    "Agriculture",
-    "Animal Husbandry",
-    "Fishing",
-    "Hunting",
-    "Mysticism",
-    "Archery",
-    "Pottery",
-    "Writing",
-    "Sailing",
-    "Masonry",
-    "Mining",
-    "Priesthood",
-    "Bronze Working",
-    "Polytheism",
-    "Meditation",
-    "Monotheism",
-]
-
-CLASSICAL_TECHS = [
-    "Calendar",
-    "Monarchy",
-    "Alphabet",
-    "Mathematics",
-    "Construction",
-    "Code of Laws",
-    "Metal Casting",
-    "Compass",
-    "Currency",
-    "Horseback Riding",
-    "Iron Working",
-    "Literature",
-    "Aesthetics",
-    "Drama",
-]
-
-MEDIEVAL_TECHS = [
-    "Feudalism",
-    "Machinery",
-    "Civil Service",
-    "Guilds",
-    "Philosophy",
-    "Optics",
-    "Theology",
-    "Paper",
-    "Music",
-    "Divine Right",
-    "Banking",
-    "Engineering"
-]
-
-RENAISSANCE_TECHS = [
-    "Economics",
-    "Constitution",
-    "Astronomy",
-    "Democracy",
-    "Education",
-    "Chemistry",
-    "Corporation",
-    "Replaceable Parts",
-    "Gunpowder",
-    "Rifling",
-    "Printing Press",
-    "Nationalism",
-    "Military Science",
-    "Military Tradition",
-    "Liberalism"
-]
-
-INDUSTRIAL_TECHS = [
-    "Railroad",
-    "Electricity",
-    "Assembly Line",
-    "Steel",
-    "Medicine",
-    "Industrialism",
-    "Communism",
-    "Scientific Method",
-    "Steam Power",
-    "Fission",
-    "Combustion",
-    "Biology",
-    "Physics",
-    "Fascism",
-    "Artillery"
-]
-
-MODERN_TECHS = [
-    "Radio",
-    "Flight",
-    "Mass Media",
-    "Plastics",
-    "Computers",
-    "Ecology",
-    "Refrigeration",
-    "Rocketry",
-    "Robotics",
-    "Satellites",
-    "Laser",
-    "Fiber Optics",
-    "Advanced Flight",
-    "Superconductors",
-    "Composites"
-]
-
-FUTURE_TECHS = [
-    "Fusion",
-    "Genetics",
-    "Stealth",
-    "Future Tech"
-]
-
-
+def gated_techsanity(world) -> bool:
+    return world.options.techsanity and world.options.techsanity_era_gates
 
 def create_and_connect_regions(world: Civ4World) -> None:
     create_all_regions(world)
@@ -134,20 +21,16 @@ def create_all_regions(world: Civ4World) -> None:
     # Let's put all these regions in a list.
     regions = [initial]
 
-    # We now need to add these regions to multiworld.regions so that AP knows about their existence.
-    world.multiworld.regions += regions
-
-    if world.options.techsanity and world.options.techsanity_era_gates:
+    if gated_techsanity(world):
         tech_regions = create_tech_regions(world)
-        world.multiworld.regions += tech_regions
+        regions += tech_regions
 
     if world.options.gpsanity > 0:
         gp_regions = create_gp_regions(world)
-        world.multiworld.regions += gp_regions
+        regions += gp_regions
 
-
-
-
+    # We now need to add these regions to multiworld.regions so that AP knows about their existence.
+    world.multiworld.regions += regions
 
 
 def create_tech_regions(world: Civ4World) -> list[Region]:
@@ -197,4 +80,33 @@ def connect_regions(world: Civ4World) -> None:
     # you can get them at any time using world.get_region(...).
     initial = world.get_region("Initial")
 
-    # ENTRANCE STUFF GOES HERE
+    if gated_techsanity(world):
+        classical = world.get_region("Classical Tech Access")
+        medieval = world.get_region("Medieval Tech Access")
+        renaissance = world.get_region("Renaissance Tech Access")
+        industrial = world.get_region("Industrial Tech Access")
+        modern = world.get_region("Modern Tech Access")
+        future = world.get_region("Future Tech Access")
+        initial.connect(classical, "Ancient to Classical")
+        classical.connect(medieval, "Classical to Medieval")
+        medieval.connect(renaissance, "Medieval to Renaissance")
+        renaissance.connect(industrial, "Renaissance to Industrial")
+        industrial.connect(modern, "Industrial to Modern")
+        modern.connect(future, "Modern to Future")
+
+    if world.options.gpsanity > 0:
+        great_scientist = world.get_region("Great Scientist Access")
+        great_artist = world.get_region("Great Artist Access")
+        great_spy = world.get_region("Great Spy Access")
+        great_general = world.get_region("Great General Access")
+        great_prophet = world.get_region("Great Prophet Access")
+        great_engineer = world.get_region("Great Engineer Access")
+        great_merchant = world.get_region("Great Merchant Access")
+        initial.connect(great_scientist, "Can Produce Great Scientist")
+        initial.connect(great_artist, "Can Produce Great Artist")
+        initial.connect(great_spy, "Can Produce Great Spy")
+        initial.connect(great_general, "Can Produce Great General")
+        initial.connect(great_prophet, "Can Produce Great Prophet")
+        initial.connect(great_engineer, "Can Produce Great Engineer")
+        initial.connect(great_merchant, "Can Produce Great Merchant")
+

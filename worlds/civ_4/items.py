@@ -2,219 +2,11 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from BaseClasses import Item, ItemClassification
+from BaseClasses import Item
+from .constants import DEFAULT_ITEM_CLASSIFICATIONS, FULL_TECH_ARRAY, ITEM_NAME_TO_ID
 
 if TYPE_CHECKING:
     from .world import Civ4World
-
-# Every item must have a unique integer ID associated with it.
-# We will have a lookup from item name to ID here that, in world.py, we will import and bind to the world class.
-# Even if an item doesn't exist on specific options, it must be present in this lookup.
-
-# TODO All Techs should be 1 to 100, then other stuff above that
-ITEM_NAME_TO_ID = {
-    "The Wheel": 1,
-    "Agriculture": 2,
-    "Animal Husbandry": 3,
-    "Fishing": 4,
-    "Hunting": 5,
-    "Mysticism": 6,
-    "Archery": 7,
-    "Pottery": 8,
-    "Writing": 9,
-    "Sailing": 10,
-    "Masonry": 11,
-    "Mining": 12,
-    "Priesthood": 13,
-    "Bronze Working": 14,
-    "Polytheism": 15,
-    "Monotheism": 16,
-    "Meditation": 17,
-    "Monarchy": 18,
-    "Alphabet": 19,
-    "Mathematics": 20,
-    "Construction": 21,
-    "Code of Laws": 22,
-    "Metal Casting": 23,
-    "Compass": 24,
-    "Currency": 25,
-    "Horseback Riding": 26,
-    "Drama": 27,
-    "Calendar": 28,
-    "Iron Working": 29,
-    "Literature": 30,
-    "Aesthetics": 31,
-    "Banking": 32,
-    "Engineering": 33,
-    "Guilds": 34,
-    "Feudalism": 35,
-    "Machinery": 36,
-    "Civil Service": 37,
-    "Philosophy": 38,
-    "Optics": 39,
-    "Theology": 40,
-    "Paper": 41,
-    "Music": 42,
-    "Divine Right": 43,
-    "Economics": 44,
-    "Constitution": 45,
-    "Astronomy": 46,
-    "Democracy": 47,
-    "Education": 48,
-    "Chemistry": 49,
-    "Corporation": 50,
-    "Replaceable Parts": 51,
-    "Gunpowder": 52,
-    "Rifling": 53,
-    "Printing Press": 54,
-    "Nationalism": 55,
-    "Military Science": 56,
-    "Military Tradition": 57,
-    "Liberalism": 58,
-    "Railroad": 59,
-    "Electricity": 60,
-    "Assembly Line": 61,
-    "Steel": 62,
-    "Medicine": 63,
-    "Industrialism": 64,
-    "Communism": 65,
-    "Scientific Method": 66,
-    "Steam Power": 67,
-    "Fission": 68,
-    "Combustion": 69,
-    "Biology": 70,
-    "Physics": 71,
-    "Fascism": 72,
-    "Artillery": 73,
-    "Radio": 74,
-    "Flight": 75,
-    "Mass Media": 76,
-    "Plastics": 77,
-    "Computers": 78,
-    "Ecology": 79,
-    "Refrigeration": 80,
-    "Rocketry": 81,
-    "Robotics": 82,
-    "Satellites": 83,
-    "Laser": 84,
-    "Fiber Optics": 85,
-    "Advanced Flight": 86,
-    "Superconductors": 87,
-    "Composites": 88,
-    "Fusion": 89,
-    "Genetics": 90,
-    "Stealth": 91,
-    "Future Tech": 92,
-    "5 Gold": 1001,
-}
-
-
-
-# Items should have a defined default classification.
-# In our case, we will make a dictionary from item name to classification.
-DEFAULT_ITEM_CLASSIFICATIONS = {
-    "The Wheel": ItemClassification.progression,
-    "Agriculture": ItemClassification.progression,
-    "Animal Husbandry": ItemClassification.progression,
-    "Fishing": ItemClassification.progression,
-    "Hunting": ItemClassification.progression,
-    "Mysticism": ItemClassification.progression,
-    "Archery": ItemClassification.useful,
-    "Pottery": ItemClassification.progression,
-    "Writing": ItemClassification.progression,
-    "Sailing": ItemClassification.progression,
-    "Masonry": ItemClassification.progression,
-    "Mining": ItemClassification.progression,
-    "Priesthood": ItemClassification.progression,
-    "Bronze Working": ItemClassification.progression,
-    "Polytheism": ItemClassification.progression,
-    "Monotheism": ItemClassification.progression,
-    "Meditation": ItemClassification.progression,
-    "Monarchy": ItemClassification.progression,
-    "Alphabet": ItemClassification.progression,
-    "Mathematics": ItemClassification.progression,
-    "Construction": ItemClassification.progression,
-    "Code of Laws": ItemClassification.progression,
-    "Metal Casting": ItemClassification.progression,
-    "Compass": ItemClassification.progression,
-    "Currency": ItemClassification.progression,
-    "Horseback Riding": ItemClassification.progression,
-    "Drama": ItemClassification.progression,
-    "Calendar": ItemClassification.progression,
-    "Iron Working": ItemClassification.progression,
-    "Literature": ItemClassification.progression,
-    "Aesthetics": ItemClassification.progression,
-    "Banking": ItemClassification.progression,
-    "Engineering": ItemClassification.progression,
-    "Guilds": ItemClassification.progression,
-    "Feudalism": ItemClassification.progression,
-    "Machinery": ItemClassification.progression,
-    "Civil Service": ItemClassification.progression,
-    "Philosophy": ItemClassification.progression,
-    "Optics": ItemClassification.progression,
-    "Theology": ItemClassification.progression,
-    "Paper": ItemClassification.progression,
-    "Music": ItemClassification.progression,
-    "Divine Right": ItemClassification.progression,
-    "Economics": ItemClassification.progression,
-    "Constitution": ItemClassification.progression,
-    "Astronomy": ItemClassification.progression,
-    "Democracy": ItemClassification.useful,
-    "Education": ItemClassification.progression,
-    "Chemistry": ItemClassification.progression,
-    "Corporation": ItemClassification.progression,
-    "Replaceable Parts": ItemClassification.progression,
-    "Gunpowder": ItemClassification.progression,
-    "Rifling": ItemClassification.progression,
-    "Printing Press": ItemClassification.progression,
-    "Nationalism": ItemClassification.progression,
-    "Military Science": ItemClassification.useful,
-    "Military Tradition": ItemClassification.useful,
-    "Liberalism": ItemClassification.progression,
-    "Railroad": ItemClassification.progression,
-    "Electricity": ItemClassification.progression,
-    "Assembly Line": ItemClassification.progression,
-    "Steel": ItemClassification.progression,
-    "Medicine": ItemClassification.progression,
-    "Industrialism": ItemClassification.progression,
-    "Communism": ItemClassification.useful,
-    "Scientific Method": ItemClassification.progression,
-    "Steam Power": ItemClassification.progression,
-    "Fission": ItemClassification.progression,
-    "Combustion": ItemClassification.progression,
-    "Biology": ItemClassification.progression,
-    "Physics": ItemClassification.progression,
-    "Fascism": ItemClassification.useful,
-    "Artillery": ItemClassification.progression,
-    "Radio": ItemClassification.progression,
-    "Flight": ItemClassification.progression,
-    "Mass Media": ItemClassification.progression,
-    "Plastics": ItemClassification.progression,
-    "Computers": ItemClassification.progression,
-    "Ecology": ItemClassification.progression,
-    "Refrigeration": ItemClassification.progression,
-    "Rocketry": ItemClassification.progression,
-    "Robotics": ItemClassification.useful,
-    "Satellites": ItemClassification.progression,
-    "Laser": ItemClassification.progression,
-    "Fiber Optics": ItemClassification.progression,
-    "Advanced Flight": ItemClassification.progression,
-    "Superconductors": ItemClassification.progression,
-    "Composites": ItemClassification.progression,
-    "Fusion": ItemClassification.progression,
-    "Genetics": ItemClassification.progression,
-    "Stealth": ItemClassification.progression, # Doesn't need to be if Archipelago Future Tech is removed
-    "Future Tech": ItemClassification.filler, # Determine if there should be multiple in the pool
-    "5 Gold": ItemClassification.filler,
-}
-
-USEFUL_WONDER_TECHS = [
-    "Communism",
-    "Democracy",
-    "Fascism",
-    "Military Tradition",
-    "Robotics",
-]
 
 
 # Each Item instance must correctly report the "game" it belongs to.
@@ -249,9 +41,11 @@ def create_all_items(world: Civ4World) -> None:
     # Creating items should generally be done via the world's create_item method.
     # First, we create a list containing all the items that always exist.
 
-    itempool: list[Item] = [
-        world.create_item("Agriculture"),
-    ]
+    itempool: list[Item] = []
+
+    if world.options.techsanity:
+        for tech_name in FULL_TECH_ARRAY:
+            itempool.append(world.create_item(tech_name))
 
     # Archipelago requires that each world submits as many locations as it submits items.
     # This is where we can use our filler and trap items.

@@ -2,7 +2,7 @@ from collections.abc import Mapping
 from typing import Any
 from worlds.AutoWorld import World
 
-from . import items, locations, regions, rules
+from . import items, locations, regions, rules, constants
 #from . import web_world
 from . import options as civ4_options  # rename due to a name conflict with World.options
 
@@ -16,8 +16,8 @@ class Civ4World(World):
 
     # Our world class must have a static location_name_to_id and item_name_to_id defined.
     # We define these in regions.py and items.py respectively, so we just set them here.
-    location_name_to_id = locations.LOCATION_NAME_TO_ID
-    item_name_to_id = items.ITEM_NAME_TO_ID
+    location_name_to_id = constants.LOCATION_NAME_TO_ID
+    item_name_to_id = constants.ITEM_NAME_TO_ID
 
     # There is always one region that the generator starts from & assumes you can always go back to.
     # This defaults to "Menu", but you can change it by overriding origin_region_name.

@@ -40,6 +40,6 @@ class GPsanity(Range):
 
 @dataclass
 class Civ4Options(PerGameCommonOptions):
-    techsanity = Techsanity
-    techsanity_era_gates = TechsanityEraGates
-    gpsanity = GPsanity
+    techsanity: Techsanity
+    techsanity_era_gates: TechsanityEraGates
+    gpsanity: GPsanity
