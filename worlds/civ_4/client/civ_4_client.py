@@ -173,7 +173,7 @@ class Civ4Context(CommonContext):
 
 
 # DELETED 'args: Namespace' FROM THIS SINCE IT WOULDN'T RUN
-async def main() -> None:
+async def main(*args) -> None:
     ctx = Civ4Context()
     global server_for_civ_4
     #ctx.server_task = asyncio.create_task(server_loop(ctx), name="server loop")
