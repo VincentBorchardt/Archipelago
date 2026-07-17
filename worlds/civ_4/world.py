@@ -1,5 +1,5 @@
 from collections.abc import Mapping
-from typing import Any
+from typing import Any, ClassVar
 from worlds.AutoWorld import World
 
 from . import items, locations, regions, rules, constants
@@ -18,6 +18,8 @@ class Civ4World(World):
     # We define these in regions.py and items.py respectively, so we just set them here.
     location_name_to_id = constants.LOCATION_NAME_TO_ID
     item_name_to_id = constants.ITEM_NAME_TO_ID
+
+    item_name_groups: ClassVar[dict[str, set[str]]] = constants.ITEM_NAME_GROUPS
 
     # There is always one region that the generator starts from & assumes you can always go back to.
     # This defaults to "Menu", but you can change it by overriding origin_region_name.

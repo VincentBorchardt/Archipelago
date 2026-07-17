@@ -1,9 +1,11 @@
 from __future__ import annotations
 
+import math
 from typing import TYPE_CHECKING
 
 from rule_builder.options import OptionFilter
-from rule_builder.rules import Has, HasAll, Rule
+from rule_builder.rules import Has, HasAll, Rule, HasGroup
+from . import constants
 
 if TYPE_CHECKING:
     from .world import Civ4World
@@ -20,7 +22,11 @@ def set_all_rules(world: Civ4World) -> None:
 
 def set_all_entrance_rules(world: Civ4World) -> None:
     # First, we need to actually grab our entrances. Luckily, there is a helper method for this.
-    pass
+    if world.options.gpsanity > 0:
+        set_gp_rules(world)
+
+    if world.options.techsanity and world.options.techsanity_era_gates > 0:
+        set_techsanity_era_gates(world)
 
 def set_all_location_rules(world: Civ4World) -> None:
     # Location rules work no differently from Entrance rules.
@@ -128,4 +134,39 @@ def set_tech_rules(world: Civ4World) -> None:
     world.set_rule(world.get_location("Archipelago Future Tech"), Has("Stealth") & Has("Genetics"))
 
 def set_gp_rules(world: Civ4World) -> None:
-    pass
+    # TODO figure out how to limit this further, probably with more region
+    scientist_access = world.get_entrance("Can Produce Great Scientist")
+    artist_access = world.get_entrance("Can Produce Great Artist")
+    spy_access = world.get_entrance("Can Produce Great Spy")
+    general_access = world.get_entrance("Can Produce Great General")
+    prophet_access = world.get_entrance("Can Produce Great Prophet")
+    engineer_access = world.get_entrance("Can Produce Great Engineer")
+    merchant_access = world.get_entrance("Can Produce Great Merchant")
+    world.set_rule(scientist_access, Has("Writing"))
+    world.set_rule(artist_access, Has("Drama"))
+    world.set_rule(spy_access, Has("Code of Laws"))
+    world.set_rule(general_access, Has("Rifling"))
+    world.set_rule(prophet_access, Has("Priesthood"))
+    world.set_rule(engineer_access, Has("Metal Casting"))
+    world.set_rule(merchant_access, Has("Currency"))
+
+def set_techsanity_era_gates(world):
+    classical_access = world.get_entrance("Ancient to Classical")
+    medieval_access = world.get_entrance("Classical to Medieval")
+    renaissance_access = world.get_entrance("Medieval to Renaissance")
+    industrial_access = world.get_entrance("Renaissance to Industrial")
+    modern_access = world.get_entrance("Industrial to Modern")
+    future_access = world.get_entrance("Modern to Future")
+    required_percentage = world.options.techsanity_era_gates / 100.0
+    required_ancient = math.ceil(len(constants.ANCIENT_TECHS) * required_percentage)
+    world.set_rule(classical_access, HasGroup("Ancient Techs", required_ancient))
+    required_classical = math.ceil(len(constants.CLASSICAL_TECHS) * required_percentage)
+    world.set_rule(medieval_access, HasGroup("Classical Techs", required_classical))
+    required_medieval = math.ceil(len(constants.MEDIEVAL_TECHS) * required_percentage)
+    world.set_rule(renaissance_access, HasGroup("Medieval Techs", required_medieval))
+    required_renaissance = math.ceil(len(constants.RENAISSANCE_TECHS) * required_percentage)
+    world.set_rule(industrial_access, HasGroup("Renaissance Techs", required_renaissance))
+    required_industrial = math.ceil(len(constants.INDUSTRIAL_TECHS) * required_percentage)
+    world.set_rule(modern_access, HasGroup("Industrial Techs", required_industrial))
+    required_modern = math.ceil(len(constants.MODERN_TECHS) * required_percentage)
+    world.set_rule(future_access, HasGroup("Modern Techs", required_modern))

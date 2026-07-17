@@ -5,6 +5,7 @@ from typing import TYPE_CHECKING
 from BaseClasses import Location
 
 from . import constants
+from .items import Civ4Item
 
 if TYPE_CHECKING:
     from .world import Civ4World
@@ -83,4 +84,11 @@ def create_events(world: Civ4World) -> None:
     # It is treated during generation like any other location, but then it is discarded.
     # This location cannot be "sent" and its item cannot be "received", but the item can be used in logic rules.
     # Since we are creating more locations and adding them to regions, we need to grab those regions again first.
-    pass
+    initial = world.get_region("Initial")
+    # TODO add filters for different types of victory (both limiting the normal types and adding faster ones)
+    initial.add_event("Conquest Victory", "Victory", location_type=Civ4Location, item_type=Civ4Item)
+    initial.add_event("Domination Victory", "Victory", location_type=Civ4Location, item_type=Civ4Item)
+    initial.add_event("Cultural Victory", "Victory", location_type=Civ4Location, item_type=Civ4Item)
+    initial.add_event("Spaceship Victory", "Victory", location_type=Civ4Location, item_type=Civ4Item)
+    initial.add_event("Diplomatic Victory", "Victory", location_type=Civ4Location, item_type=Civ4Item)
+    initial.add_event("Time Victory", "Victory", location_type=Civ4Location, item_type=Civ4Item)

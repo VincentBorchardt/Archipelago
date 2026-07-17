@@ -587,7 +587,7 @@ USEFUL_WONDER_TECHS = [
     "Military Tradition",
     "Robotics",
 ]
-ANCIENT_TECHS = [
+ANCIENT_TECHS = {
     "The Wheel",
     "Agriculture",
     "Animal Husbandry",
@@ -605,8 +605,8 @@ ANCIENT_TECHS = [
     "Polytheism",
     "Meditation",
     "Monotheism",
-]
-CLASSICAL_TECHS = [
+}
+CLASSICAL_TECHS = {
     "Calendar",
     "Monarchy",
     "Alphabet",
@@ -621,8 +621,8 @@ CLASSICAL_TECHS = [
     "Literature",
     "Aesthetics",
     "Drama",
-]
-MEDIEVAL_TECHS = [
+}
+MEDIEVAL_TECHS = {
     "Feudalism",
     "Machinery",
     "Civil Service",
@@ -635,8 +635,8 @@ MEDIEVAL_TECHS = [
     "Divine Right",
     "Banking",
     "Engineering"
-]
-RENAISSANCE_TECHS = [
+}
+RENAISSANCE_TECHS = {
     "Economics",
     "Constitution",
     "Astronomy",
@@ -652,8 +652,8 @@ RENAISSANCE_TECHS = [
     "Military Science",
     "Military Tradition",
     "Liberalism"
-]
-INDUSTRIAL_TECHS = [
+}
+INDUSTRIAL_TECHS = {
     "Railroad",
     "Electricity",
     "Assembly Line",
@@ -669,8 +669,8 @@ INDUSTRIAL_TECHS = [
     "Physics",
     "Fascism",
     "Artillery"
-]
-MODERN_TECHS = [
+}
+MODERN_TECHS = {
     "Radio",
     "Flight",
     "Mass Media",
@@ -686,10 +686,20 @@ MODERN_TECHS = [
     "Advanced Flight",
     "Superconductors",
     "Composites"
-]
-FUTURE_TECHS = [
+}
+FUTURE_TECHS = {
     "Fusion",
     "Genetics",
     "Stealth",
     "Future Tech"
-]
+}
+
+ITEM_NAME_GROUPS = {
+    "Ancient Techs" : ANCIENT_TECHS,
+    "Classical Techs" : CLASSICAL_TECHS,
+    "Medieval Techs" : MEDIEVAL_TECHS,
+    "Renaissance Techs" : RENAISSANCE_TECHS,
+    "Industrial Techs" : INDUSTRIAL_TECHS,
+    "Modern Techs" : MODERN_TECHS,
+    "Future Techs" : FUTURE_TECHS,
+}

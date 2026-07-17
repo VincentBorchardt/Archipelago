@@ -98,6 +98,8 @@ class Civ4Context(CommonContext):
                 print(data)
                 hint_dict = {"hints" : data}
                 self.send_message_to_civ_4("GetHints", hint_dict)
+            elif converted_data["type"] == "GetSettings":
+                pass
             elif converted_data["type"] == "Command":
                 command = converted_data["cmd"]
                 if command:
@@ -140,6 +142,10 @@ class Civ4Context(CommonContext):
         print(str(args))
         message_dict = {"cmd": cmd}
         # TODO make this more general without putting something in the pickle Civ4 will choke on
+        if args and cmd == "Connected":
+            message_dict["techsanity"] = args.get("techsanity")
+            message_dict["techsanity_era_gates"] = args.get("techsanity_era_gates")
+            message_dict["gpsanity"] = args.get("gpsanity")
         if args and cmd == "ReceiveItems":
             message_dict = args | message_dict
         if args and cmd == "GetHints":

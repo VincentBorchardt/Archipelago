@@ -22,7 +22,7 @@ class TechsanityEraGates(Range):
 
     range_start = 0
     range_end = 100
-    default = 75
+    default = 50
 
 class GPsanity(Range):
     """
