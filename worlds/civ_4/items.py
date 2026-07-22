@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from BaseClasses import Item
-from .constants import DEFAULT_ITEM_CLASSIFICATIONS, FULL_TECH_ARRAY, ITEM_NAME_TO_ID
+from .constants import *
 
 if TYPE_CHECKING:
     from .world import Civ4World
@@ -47,6 +47,7 @@ def create_all_items(world: Civ4World) -> None:
         for tech_name in FULL_TECH_ARRAY:
             itempool.append(world.create_item(tech_name))
 
+
     # Archipelago requires that each world submits as many locations as it submits items.
     # This is where we can use our filler and trap items.
     # (Unfortunately, Archipelago is a bit ambiguous about its terminology here:
@@ -74,12 +75,7 @@ def create_all_items(world: Civ4World) -> None:
     # Now, we just subtract the number of items from the number of locations to get the number of empty item slots.
     needed_number_of_filler_items = number_of_unfilled_locations - number_of_items
 
-    # Now, we just subtract the number of items from the number of locations to get the number of empty item slots.
-    needed_number_of_filler_items = number_of_unfilled_locations - number_of_items
-
     # Finally, we create that many filler items and add them to the itempool.
-    # To create our filler, we could just use world.create_item("Confetti Cannon").
-    # But there is an alternative that works even better for most worlds, including APQuest.
     # As discussed above, our world must have a get_filler_item_name() function defined,
     # which must return the name of an infinitely repeatable filler item.
     # Defining this function enables the use of a helper function called world.create_filler().

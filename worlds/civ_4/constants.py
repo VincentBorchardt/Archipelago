@@ -178,6 +178,7 @@ LOCATION_NAME_TO_ID = {
     "Great Spy Check 10": 170,
 }
 
+### TECHSANITY LOCATION CONSTANTS ###
 ARCHIPELAGO_ANCIENT_TECHS = [
     "Archipelago The Wheel",
     "Archipelago Agriculture",
@@ -283,6 +284,98 @@ ARCHIPELAGO_FUTURE_TECHS = [
     "Archipelago Genetics",
     "Archipelago Stealth",
     "Archipelago Future Tech"
+]
+
+### GPSANITY LOCATION CONSTANTS ###
+GREAT_SCIENTIST_LOCATIONS = [
+    "Great Scientist Check 1",
+    "Great Scientist Check 2",
+    "Great Scientist Check 3",
+    "Great Scientist Check 4",
+    "Great Scientist Check 5",
+    "Great Scientist Check 6",
+    "Great Scientist Check 7",
+    "Great Scientist Check 8",
+    "Great Scientist Check 9",
+    "Great Scientist Check 10",
+]
+
+GREAT_ENGINEER_LOCATIONS = [
+    "Great Engineer Check 1",
+    "Great Engineer Check 2",
+    "Great Engineer Check 3",
+    "Great Engineer Check 4",
+    "Great Engineer Check 5",
+    "Great Engineer Check 6",
+    "Great Engineer Check 7",
+    "Great Engineer Check 8",
+    "Great Engineer Check 9",
+    "Great Engineer Check 10",
+]
+
+GREAT_PROPHET_LOCATIONS = [
+    "Great Prophet Check 1",
+    "Great Prophet Check 2",
+    "Great Prophet Check 3",
+    "Great Prophet Check 4",
+    "Great Prophet Check 5",
+    "Great Prophet Check 6",
+    "Great Prophet Check 7",
+    "Great Prophet Check 8",
+    "Great Prophet Check 9",
+    "Great Prophet Check 10",
+]
+
+GREAT_ARTIST_LOCATIONS = [
+    "Great Artist Check 1",
+    "Great Artist Check 2",
+    "Great Artist Check 3",
+    "Great Artist Check 4",
+    "Great Artist Check 5",
+    "Great Artist Check 6",
+    "Great Artist Check 7",
+    "Great Artist Check 8",
+    "Great Artist Check 9",
+    "Great Artist Check 10",
+]
+
+GREAT_MERCHANT_LOCATIONS = [
+    "Great Merchant Check 1",
+    "Great Merchant Check 2",
+    "Great Merchant Check 3",
+    "Great Merchant Check 4",
+    "Great Merchant Check 5",
+    "Great Merchant Check 6",
+    "Great Merchant Check 7",
+    "Great Merchant Check 8",
+    "Great Merchant Check 9",
+    "Great Merchant Check 10",
+]
+
+GREAT_GENERAL_LOCATIONS = [
+    "Great General Check 1",
+    "Great General Check 2",
+    "Great General Check 3",
+    "Great General Check 4",
+    "Great General Check 5",
+    "Great General Check 6",
+    "Great General Check 7",
+    "Great General Check 8",
+    "Great General Check 9",
+    "Great General Check 10",
+]
+
+GREAT_SPY_LOCATIONS = [
+    "Great Spy Check 1",
+    "Great Spy Check 2",
+    "Great Spy Check 3",
+    "Great Spy Check 4",
+    "Great Spy Check 5",
+    "Great Spy Check 6",
+    "Great Spy Check 7",
+    "Great Spy Check 8",
+    "Great Spy Check 9",
+    "Great Spy Check 10",
 ]
 
 ### ITEM CONSTANTS ###

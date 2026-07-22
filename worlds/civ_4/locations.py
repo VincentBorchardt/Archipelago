@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 
 from BaseClasses import Location
 
-from . import constants
+from .constants import *
 from .items import Civ4Item
 
 if TYPE_CHECKING:
@@ -24,7 +24,7 @@ class Civ4Location(Location):
 # Note: There is a minor typing quirk here. Some functions want location addresses to be an "int | None",
 # so while our function here only ever returns dict[str, int], we annotate it as dict[str, int | None].
 def get_location_names_with_ids(location_names: list[str]) -> dict[str, int | None]:
-    return {location_name: constants.LOCATION_NAME_TO_ID[location_name] for location_name in location_names}
+    return {location_name: LOCATION_NAME_TO_ID[location_name] for location_name in location_names}
 
 def create_all_locations(world: Civ4World) -> None:
     create_regular_locations(world)
@@ -42,13 +42,13 @@ def create_regular_locations(world: Civ4World) -> None:
     # You also need to pass your overridden Location class.
 
     if world.options.techsanity:
-        ancient_techs = get_location_names_with_ids(constants.ARCHIPELAGO_ANCIENT_TECHS)
-        classical_techs = get_location_names_with_ids(constants.ARCHIPELAGO_CLASSICAL_TECHS)
-        medieval_techs = get_location_names_with_ids(constants.ARCHIPELAGO_MEDIEVAL_TECHS)
-        renaissance_techs = get_location_names_with_ids(constants.ARCHIPELAGO_RENAISSANCE_TECHS)
-        industrial_techs = get_location_names_with_ids(constants.ARCHIPELAGO_INDUSTRIAL_TECHS)
-        modern_techs = get_location_names_with_ids(constants.ARCHIPELAGO_MODERN_TECHS)
-        future_techs = get_location_names_with_ids(constants.ARCHIPELAGO_FUTURE_TECHS)
+        ancient_techs = get_location_names_with_ids(ARCHIPELAGO_ANCIENT_TECHS)
+        classical_techs = get_location_names_with_ids(ARCHIPELAGO_CLASSICAL_TECHS)
+        medieval_techs = get_location_names_with_ids(ARCHIPELAGO_MEDIEVAL_TECHS)
+        renaissance_techs = get_location_names_with_ids(ARCHIPELAGO_RENAISSANCE_TECHS)
+        industrial_techs = get_location_names_with_ids(ARCHIPELAGO_INDUSTRIAL_TECHS)
+        modern_techs = get_location_names_with_ids(ARCHIPELAGO_MODERN_TECHS)
+        future_techs = get_location_names_with_ids(ARCHIPELAGO_FUTURE_TECHS)
 
         initial.add_locations(ancient_techs, Civ4Location)
 
@@ -73,6 +73,35 @@ def create_regular_locations(world: Civ4World) -> None:
             initial.add_locations(modern_techs, Civ4Location)
             initial.add_locations(future_techs, Civ4Location)
 
+    gpsanity_amount = world.options.gpsanity
+    if gpsanity_amount > 0:
+        scientist_region = world.get_region("Great Scientist Access")
+        scientist_locations = get_location_names_with_ids(GREAT_SCIENTIST_LOCATIONS[0:gpsanity_amount])
+        scientist_region.add_locations(scientist_locations, Civ4Location)
+
+        artist_region = world.get_region("Great Artist Access")
+        artist_locations = get_location_names_with_ids(GREAT_ARTIST_LOCATIONS[0:gpsanity_amount])
+        artist_region.add_locations(artist_locations, Civ4Location)
+
+        engineer_region = world.get_region("Great Engineer Access")
+        engineer_locations = get_location_names_with_ids(GREAT_ENGINEER_LOCATIONS[0:gpsanity_amount])
+        engineer_region.add_locations(engineer_locations, Civ4Location)
+
+        merchant_region = world.get_region("Great Merchant Access")
+        merchant_locations = get_location_names_with_ids(GREAT_MERCHANT_LOCATIONS[0:gpsanity_amount])
+        merchant_region.add_locations(merchant_locations, Civ4Location)
+
+        prophet_region = world.get_region("Great Prophet Access")
+        prophet_locations = get_location_names_with_ids(GREAT_PROPHET_LOCATIONS[0:gpsanity_amount])
+        prophet_region.add_locations(prophet_locations, Civ4Location)
+
+        general_region = world.get_region("Great General Access")
+        general_locations = get_location_names_with_ids(GREAT_GENERAL_LOCATIONS[0:gpsanity_amount])
+        general_region.add_locations(general_locations, Civ4Location)
+
+        spy_region = world.get_region("Great Spy Access")
+        spy_locations = get_location_names_with_ids(GREAT_SPY_LOCATIONS[0:gpsanity_amount])
+        spy_region.add_locations(spy_locations, Civ4Location)
 
 
 
@@ -92,3 +121,4 @@ def create_events(world: Civ4World) -> None:
     initial.add_event("Spaceship Victory", "Victory", location_type=Civ4Location, item_type=Civ4Item)
     initial.add_event("Diplomatic Victory", "Victory", location_type=Civ4Location, item_type=Civ4Item)
     initial.add_event("Time Victory", "Victory", location_type=Civ4Location, item_type=Civ4Item)
+    initial.add_event("Score Victory", "Victory", location_type=Civ4Location, item_type=Civ4Item)

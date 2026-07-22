@@ -143,13 +143,17 @@ class Civ4Context(CommonContext):
         message_dict = {"cmd": cmd}
         # TODO make this more general without putting something in the pickle Civ4 will choke on
         if args and cmd == "Connected":
-            message_dict["techsanity"] = args.get("techsanity")
-            message_dict["techsanity_era_gates"] = args.get("techsanity_era_gates")
-            message_dict["gpsanity"] = args.get("gpsanity")
+            slot_data = args.get("slot_data")
+            print(str(slot_data))
+            if slot_data:
+                message_dict["techsanity"] = slot_data.get("techsanity")
+                message_dict["techsanity_era_gates"] = slot_data.get("techsanity_era_gates")
+                message_dict["gpsanity"] = slot_data.get("gpsanity")
         if args and cmd == "ReceiveItems":
             message_dict = args | message_dict
         if args and cmd == "GetHints":
             message_dict = args | message_dict
+        print(str(message_dict))
         message_pickle = pickle.dumps(message_dict, protocol=2)
         civ_4_writer.write(message_pickle)
         civ_4_writer.drain()
