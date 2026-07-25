@@ -43,7 +43,7 @@ def set_completion_condition(world: Civ4World) -> None:
     # Finally, we need to set a completion condition for our world, defining what the player needs to win the game.
     # For this, we can use world.set_completion_rule.
     # You can just set a completion condition directly like any other condition, referencing items the player receives:
-    world.set_completion_rule(Has("Agriculture"))
+    world.set_completion_rule(Has("Victory"))
 
 def set_tech_rules(world: Civ4World) -> None:
     world.set_rule(world.get_location("Archipelago Sailing"), Has("Fishing"))

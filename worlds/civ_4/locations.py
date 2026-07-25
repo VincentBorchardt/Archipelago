@@ -115,6 +115,7 @@ def create_events(world: Civ4World) -> None:
     # Since we are creating more locations and adding them to regions, we need to grab those regions again first.
     initial = world.get_region("Initial")
     # TODO add filters for different types of victory (both limiting the normal types and adding faster ones)
+    # TODO This also doesn't appear to mean anything yet
     initial.add_event("Conquest Victory", "Victory", location_type=Civ4Location, item_type=Civ4Item)
     initial.add_event("Domination Victory", "Victory", location_type=Civ4Location, item_type=Civ4Item)
     initial.add_event("Cultural Victory", "Victory", location_type=Civ4Location, item_type=Civ4Item)

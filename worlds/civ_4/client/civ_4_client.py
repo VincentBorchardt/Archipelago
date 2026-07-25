@@ -98,6 +98,11 @@ class Civ4Context(CommonContext):
                 print(data)
                 hint_dict = {"hints" : data}
                 self.send_message_to_civ_4("GetHints", hint_dict)
+            elif converted_data["type"] == "Victory":
+                # TODO check the type to see if it's valid in the settings
+                status_dict = {"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}
+                await self.send_msgs([status_dict])
+
             elif converted_data["type"] == "GetSettings":
                 pass
             elif converted_data["type"] == "Command":
