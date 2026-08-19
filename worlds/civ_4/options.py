@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
 from Options import Choice, OptionGroup, PerGameCommonOptions, Range, Toggle, DefaultOnToggle
+from worlds.apquest.options import option_groups
 
 
 class Techsanity(DefaultOnToggle):
@@ -27,8 +28,8 @@ class TechsanityEraGates(Range):
 class GPsanity(Range):
     """
     Turns great person bulbs into locations in the multiworld.
-    This also includes Great Generals and Great Spies
-    Change to 0 to fully disable GPsanity
+    This also includes Great Generals and Great Spies.
+    Change to 0 to fully disable GPsanity.
     Warning: Currently not biased towards lower numbers, so be careful with high numbers.
     """
 
@@ -38,8 +39,25 @@ class GPsanity(Range):
     range_end = 10
     default = 3
 
+class WorldWondersanity(DefaultOnToggle):
+    """
+    Turns completed World Wonders into locations in the multiworld.
+    Warning: As wonders are still limited to one in the world, you may need to start a new game to realistically build them.
+    """
+
+    display_name = "World Wonders"
+
 @dataclass
 class Civ4Options(PerGameCommonOptions):
     techsanity: Techsanity
     techsanity_era_gates: TechsanityEraGates
     gpsanity: GPsanity
+    world_wondersanity: WorldWondersanity
+
+option_groups = [
+    OptionGroup(
+        "Wondersanity Options",
+        [WorldWondersanity]
+    ),
+]
+
