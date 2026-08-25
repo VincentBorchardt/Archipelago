@@ -30,14 +30,14 @@ def set_all_entrance_rules(world: Civ4World) -> None:
 
 def set_all_location_rules(world: Civ4World) -> None:
     # Location rules work no differently from Entrance rules.
-    # Most of our locations are chests that can simply be opened by walking up to them.
     # Thus, their logical requirements are covered by the Entrance rules of the Entrances that were required to
-    # reach the region that the chest sits in.
-    # However, our two enemies work differently.
-    # Entering the room with the enemy is not enough, you also need to have enough combat items to be able to defeat it.
+    # reach the region.
     # So, we need to set requirements on the Locations themselves.
     if world.options.techsanity:
         set_tech_rules(world)
+
+    if world.options.world_wondersanity:
+        set_world_wonder_rules(world)
 
 def set_completion_condition(world: Civ4World) -> None:
     # Finally, we need to set a completion condition for our world, defining what the player needs to win the game.
@@ -132,6 +132,42 @@ def set_tech_rules(world: Civ4World) -> None:
     world.set_rule(world.get_location("Archipelago Genetics"), Has("Medicine") & Has("Superconductors"))
     world.set_rule(world.get_location("Archipelago Fusion"), Has("Fission") & Has("Fiber Optics"))
     world.set_rule(world.get_location("Archipelago Future Tech"), Has("Stealth") & Has("Genetics"))
+
+def set_world_wonder_rules(world:Civ4World) -> None:
+    world.set_rule(world.get_location("Angkor Wat"), Has("Philosophy"))
+    world.set_rule(world.get_location("Broadway"), Has("Electricity"))
+    world.set_rule(world.get_location("Chichen Itza"), Has("Code of Laws"))
+    world.set_rule(world.get_location("Cristo Redentor"), Has("Radio"))
+    world.set_rule(world.get_location("Hollywood"), Has("Mass Media"))
+    world.set_rule(world.get_location("Mausoleum of Maussollos"), Has("Calendar"))
+    world.set_rule(world.get_location("Notre Dame"), Has("Engineering"))
+    world.set_rule(world.get_location("Rock 'n' Roll"), Has("Radio"))
+    world.set_rule(world.get_location("Shwedagon Paya"), Has("Meditation") & Has("Aesthetics"))
+    world.set_rule(world.get_location("Stonehenge"), Has("Mysticism"))
+    world.set_rule(world.get_location("The Apostolic Palace"), Has("Theology")) # Requires Diplo Victory
+    world.set_rule(world.get_location("The Colossus"), Has("Metal Casting"))
+    world.set_rule(world.get_location("The Eiffel Tower"), Has("Metal Casting") & Has("Radio"))
+    world.set_rule(world.get_location("The Great Library"), Has("Writing") & Has("Literature"))
+    world.set_rule(world.get_location("The Great Lighthouse"), Has("Sailing") & Has("Masonry"))
+    world.set_rule(world.get_location("The Great Wall"), Has("Masonry"))
+    world.set_rule(world.get_location("The Hagia Sophia"), Has("Theology"))
+    world.set_rule(world.get_location("The Hanging Gardens"), Has("Mathematics") & Has("Masonry"))
+    world.set_rule(world.get_location("The Kremlin"), Has("Communism"))
+    world.set_rule(world.get_location("The Oracle"), Has("Priesthood"))
+    world.set_rule(world.get_location("The Parthenon"), Has("Polytheism") & Has("Aesthetics"))
+    world.set_rule(world.get_location("The Pentagon"), Has("Assembly Line"))
+    world.set_rule(world.get_location("The Pyramids"), Has("Masonry"))
+    world.set_rule(world.get_location("The Sistine Chapel"), Has("Music"))
+    world.set_rule(world.get_location("The Space Elevator"), Has("Satellites") & Has("Robotics"))
+    world.set_rule(world.get_location("The Spiral Minaret"), Has("Divine Right"))
+    world.set_rule(world.get_location("The Statue of Liberty"), Has("Democracy") & Has("Metal Casting"))
+    world.set_rule(world.get_location("The Statue of Zeus"), Has("Aesthetics") & Has("Mysticism"))
+    world.set_rule(world.get_location("The Taj Mahal"), Has("Nationalism"))
+    world.set_rule(world.get_location("The Temple of Artemis"), Has("Polytheism"))
+    world.set_rule(world.get_location("The Three Gorges Dam"), Has("Plastics"))
+    world.set_rule(world.get_location("The United Nations"), Has("Mass Media")) # Requires Diplo Victory
+    world.set_rule(world.get_location("University of Sankore"), Has("Paper"))
+    world.set_rule(world.get_location("Versailles"), Has("Divine Right"))
 
 def set_gp_rules(world: Civ4World) -> None:
     # TODO figure out how to limit this further, probably with more region

@@ -103,6 +103,10 @@ def create_regular_locations(world: Civ4World) -> None:
         spy_locations = get_location_names_with_ids(GREAT_SPY_LOCATIONS[0:gpsanity_amount])
         spy_region.add_locations(spy_locations, Civ4Location)
 
+    if world.options.world_wondersanity:
+        world_wonders = get_location_names_with_ids(WORLD_WONDER_LOCATIONS)
+        initial.add_locations(world_wonders, Civ4Location)
+
 
 
 def create_events(world: Civ4World) -> None:

@@ -18,6 +18,7 @@ class Civ4Item(Item):
 # To do this, it must define a function called world.get_filler_item_name(), which we will define in world.py later.
 # For now, let's make a function that returns the name of a random filler item here in items.py.
 def get_random_filler_item_name(world: Civ4World) -> str:
+    # TODO add multiple filler gold types
     return "5 Gold"
 
 def create_item_with_correct_classification(world: Civ4World, name: str) -> Civ4Item:
@@ -28,6 +29,10 @@ def create_item_with_correct_classification(world: Civ4World, name: str) -> Civ4
     classification = DEFAULT_ITEM_CLASSIFICATIONS[name]
 
     # TODO check the useful_wonder_techs and change their classification when wondersanity is implemented
+    if world.options.world_wondersanity and name in USEFUL_WONDER_TECHS:
+        classification = ItemClassification.progression
+
+    # TODO check for large GPsanity numbers and make more things progression (Philosophical, more buildings?)
 
     return Civ4Item(name, classification, ITEM_NAME_TO_ID[name], world.player)
 
@@ -54,13 +59,9 @@ def create_all_items(world: Civ4World) -> None:
     #  "filler" is an ItemClassification separate from "trap", but in a lot of its functions,
     #  Archipelago will use "filler" to just mean "an additional item created to fill out the itempool".
     #  "Filler" in this sense can technically have any ItemClassification,
-    #  but most commonly ItemClassification.filler or ItemClassification.trap.
-    #  Starting here, the word "filler" will be used to collectively refer to APQuest's Confetti Cannon and Math Trap,
-    #  which are ItemClassification.filler and ItemClassification.trap respectively.)
+    #  but most commonly ItemClassification.filler or ItemClassification.trap.)
     # Creating filler items works the same as any other item. But there is a question:
     # How many filler items do we actually need to create?
-    # In regions.py, we created either six or seven locations depending on the "extra_starting_chest" option.
-    # In this function, we have created five or six items depending on whether the "hammer" option is enabled.
     # We *could* have a really complicated if-else tree checking the options again, but there is a better way.
     # We can compare the size of our itempool so far to the number of locations in our world.
 

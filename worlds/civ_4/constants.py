@@ -177,7 +177,7 @@ LOCATION_NAME_TO_ID = {
     "Great Spy Check 9": 169,
     "Great Spy Check 10": 170,
 
-    # --- Wondersanity Locations: World Wonders (IDs 201 - 234) ---
+    # --- World Wonder Locations: (IDs 201 - 234) ---
     "The Pyramids": 201,
     "Stonehenge": 202,
     "The Oracle": 203,
@@ -185,17 +185,17 @@ LOCATION_NAME_TO_ID = {
     "Chichen Itza": 205,
     "The Sistine Chapel": 206,
     "Notre Dame": 207,
-    "Taj Mahal": 208,
+    "The Taj Mahal": 208,
     "The Kremlin": 209,
-    "Eiffel Tower": 210,
-    "Statue of Liberty": 211,
+    "The Eiffel Tower": 210,
+    "The Statue of Liberty": 211,
     "The Pentagon": 212,
     "Hollywood": 213,
     "Rock 'n' Roll": 214,
     "Broadway": 215,
-    "Three Gorges Dam": 216,
-    "Space Elevator": 217,
-    "Hagia Sophia": 218,
+    "The Three Gorges Dam": 216,
+    "The Space Elevator": 217,
+    "The Hagia Sophia": 218,
     "The Great Lighthouse": 219,
     "The Colossus": 220,
     "The Hanging Gardens": 221,
@@ -208,7 +208,7 @@ LOCATION_NAME_TO_ID = {
     "University of Sankore": 228,
     "Versailles": 229,
     "Mausoleum of Maussollos": 230,
-    "Statue of Zeus": 231,
+    "The Statue of Zeus": 231,
     "Shwedagon Paya": 232,
     "The Apostolic Palace": 233,
     "Cristo Redentor": 234,
@@ -335,7 +335,6 @@ GREAT_SCIENTIST_LOCATIONS = [
     "Great Scientist Check 9",
     "Great Scientist Check 10",
 ]
-
 GREAT_ENGINEER_LOCATIONS = [
     "Great Engineer Check 1",
     "Great Engineer Check 2",
@@ -348,7 +347,6 @@ GREAT_ENGINEER_LOCATIONS = [
     "Great Engineer Check 9",
     "Great Engineer Check 10",
 ]
-
 GREAT_PROPHET_LOCATIONS = [
     "Great Prophet Check 1",
     "Great Prophet Check 2",
@@ -361,7 +359,6 @@ GREAT_PROPHET_LOCATIONS = [
     "Great Prophet Check 9",
     "Great Prophet Check 10",
 ]
-
 GREAT_ARTIST_LOCATIONS = [
     "Great Artist Check 1",
     "Great Artist Check 2",
@@ -374,7 +371,6 @@ GREAT_ARTIST_LOCATIONS = [
     "Great Artist Check 9",
     "Great Artist Check 10",
 ]
-
 GREAT_MERCHANT_LOCATIONS = [
     "Great Merchant Check 1",
     "Great Merchant Check 2",
@@ -387,7 +383,6 @@ GREAT_MERCHANT_LOCATIONS = [
     "Great Merchant Check 9",
     "Great Merchant Check 10",
 ]
-
 GREAT_GENERAL_LOCATIONS = [
     "Great General Check 1",
     "Great General Check 2",
@@ -400,7 +395,6 @@ GREAT_GENERAL_LOCATIONS = [
     "Great General Check 9",
     "Great General Check 10",
 ]
-
 GREAT_SPY_LOCATIONS = [
     "Great Spy Check 1",
     "Great Spy Check 2",
@@ -412,6 +406,43 @@ GREAT_SPY_LOCATIONS = [
     "Great Spy Check 8",
     "Great Spy Check 9",
     "Great Spy Check 10",
+]
+
+WORLD_WONDER_LOCATIONS = [
+    "The Pyramids",
+    "Stonehenge",
+    "The Oracle",
+    "The Parthenon",
+    "Chichen Itza",
+    "The Sistine Chapel",
+    "Notre Dame",
+    "The Taj Mahal",
+    "The Kremlin",
+    "The Eiffel Tower",
+    "The Statue of Liberty",
+    "The Pentagon",
+    "Hollywood",
+    "Rock 'n' Roll",
+    "Broadway",
+    "The Three Gorges Dam",
+    "The Space Elevator",
+    "The Hagia Sophia",
+    "The Great Lighthouse",
+    "The Colossus",
+    "The Hanging Gardens",
+    "The Great Library",
+    "Angkor Wat",
+    "The Spiral Minaret",
+    "The United Nations",
+    "The Great Wall",
+    "The Temple of Artemis",
+    "University of Sankore",
+    "Versailles",
+    "Mausoleum of Maussollos",
+    "The Statue of Zeus",
+    "Shwedagon Paya",
+    "The Apostolic Palace",
+    "Cristo Redentor",
 ]
 
 ### ITEM CONSTANTS ###
