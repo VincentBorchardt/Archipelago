@@ -212,6 +212,22 @@ LOCATION_NAME_TO_ID = {
     "Shwedagon Paya": 232,
     "The Apostolic Palace": 233,
     "Cristo Redentor": 234,
+
+    # --- National Wonder Locations (IDs 241 -  ---
+    "Heroic Epic": 241,
+    "National Epic": 242,
+    "Iron Works": 243,
+    "Mount Rushmore": 244,
+    "Red Cross": 245,
+    "Scotland Yard": 246,
+    "Oxford University": 247,
+    "Wall Street": 248,
+    "Globe Theatre": 249,
+    "Hermitage": 250,
+    "Moai Statues": 251,
+    "National Park": 252,
+    "Forbidden Palace": 253,
+    "West Point": 254,
 }
 
 ### TECHSANITY LOCATION CONSTANTS ###
