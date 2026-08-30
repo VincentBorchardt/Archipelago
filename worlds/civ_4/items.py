@@ -28,8 +28,10 @@ def create_item_with_correct_classification(world: Civ4World, name: str) -> Civ4
     # but it seemed nicer to have it in its own function over here in items.py.
     classification = DEFAULT_ITEM_CLASSIFICATIONS[name]
 
-    # TODO check the useful_wonder_techs and change their classification when wondersanity is implemented
-    if world.options.world_wondersanity and name in USEFUL_WONDER_TECHS:
+    if world.options.world_wondersanity and name in USEFUL_WORLD_WONDER_TECHS:
+        classification = ItemClassification.progression
+
+    if world.options.national_wondersanity and name in USEFUL_NATIONAL_WONDER_TECHS:
         classification = ItemClassification.progression
 
     # TODO check for large GPsanity numbers and make more things progression (Philosophical, more buildings?)
@@ -55,21 +57,14 @@ def create_all_items(world: Civ4World) -> None:
 
     # Archipelago requires that each world submits as many locations as it submits items.
     # This is where we can use our filler and trap items.
-    # (Unfortunately, Archipelago is a bit ambiguous about its terminology here:
-    #  "filler" is an ItemClassification separate from "trap", but in a lot of its functions,
-    #  Archipelago will use "filler" to just mean "an additional item created to fill out the itempool".
-    #  "Filler" in this sense can technically have any ItemClassification,
-    #  but most commonly ItemClassification.filler or ItemClassification.trap.)
     # Creating filler items works the same as any other item. But there is a question:
     # How many filler items do we actually need to create?
-    # We *could* have a really complicated if-else tree checking the options again, but there is a better way.
     # We can compare the size of our itempool so far to the number of locations in our world.
 
     # The length of our itempool is easy to determine, since we have it as a list.
     number_of_items = len(itempool)
 
     # The number of locations is also easy to determine, but we have to be careful.
-    # Just calling len(world.get_locations()) would report an incorrect number, because of our *event locations*.
     # What we actually want is the number of *unfilled* locations. Luckily, there is a helper method for this:
     number_of_unfilled_locations = len(world.multiworld.get_unfilled_locations(world.player))
 
@@ -93,11 +88,6 @@ def create_all_items(world: Civ4World) -> None:
     # But there are many other games which *only* have infinitely repeatable filler items.
     # They don't care about specific amounts of specific filler items, instead only caring about the proportions.
     # In this case, world.create_filler() can just be used for the entire filler itempool.
-    # APQuest is one of these games:
-    # Regardless of whether it's filler for the regular itempool or additional filler for item links / etc.,
-    # we always just want a Confetti Cannon or a Math Trap depending on the "trap_chance" option.
-    # We defined this behavior in our get_random_filler_item_name() function, which in world.py,
-    # we'll bind to world.get_filler_item_name(). So, we can just use world.create_filler() for all of our filler.
 
     # Anyway. With our world's itempool finalized, we now need to submit it to the multiworld itempool.
     # This is how the generator actually knows about the existence of our items.

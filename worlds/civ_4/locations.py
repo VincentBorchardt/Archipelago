@@ -72,6 +72,9 @@ def create_regular_locations(world: Civ4World) -> None:
             initial.add_locations(industrial_techs, Civ4Location)
             initial.add_locations(modern_techs, Civ4Location)
             initial.add_locations(future_techs, Civ4Location)
+    else:
+        # TODO make events for each tech if techsanity isn't on
+        pass
 
     gpsanity_amount = world.options.gpsanity
     if gpsanity_amount > 0:
@@ -106,6 +109,9 @@ def create_regular_locations(world: Civ4World) -> None:
     if world.options.world_wondersanity:
         world_wonders = get_location_names_with_ids(WORLD_WONDER_LOCATIONS)
         initial.add_locations(world_wonders, Civ4Location)
+
+    if world.options.national_wondersanity:
+        national_wonders = get_location_names_with_ids()
 
 
 

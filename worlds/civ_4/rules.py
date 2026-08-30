@@ -39,6 +39,9 @@ def set_all_location_rules(world: Civ4World) -> None:
     if world.options.world_wondersanity:
         set_world_wonder_rules(world)
 
+    if world.options.national_wondersanity:
+        set_national_wonder_rules(world)
+
 def set_completion_condition(world: Civ4World) -> None:
     # Finally, we need to set a completion condition for our world, defining what the player needs to win the game.
     # For this, we can use world.set_completion_rule.
@@ -169,8 +172,23 @@ def set_world_wonder_rules(world:Civ4World) -> None:
     world.set_rule(world.get_location("University of Sankore"), Has("Paper"))
     world.set_rule(world.get_location("Versailles"), Has("Divine Right"))
 
+def set_national_wonder_rules(world: Civ4World) -> None:
+    world.set_rule(world.get_location("Forbidden Palace"), Has("Code of Laws"))
+    world.set_rule(world.get_location("Globe Theatre"), Has("Drama"))
+    world.set_rule(world.get_location("Hermitage"), Has("Nationalism"))
+    world.set_rule(world.get_location("Heroic Epic"), Has("Literature"))
+    world.set_rule(world.get_location("Ironworks"), Has("Metal Casting") & Has("Steel"))
+    world.set_rule(world.get_location("Moai Statues"), Has("Sailing"))
+    world.set_rule(world.get_location("Mt. Rushmore"), Has("Fascism"))
+    world.set_rule(world.get_location("National Epic"), Has("Writing") & Has("Literature"))
+    world.set_rule(world.get_location("National Park"), Has("Biology"))
+    world.set_rule(world.get_location("Oxford University"), Has("Writing") & Has("Education"))
+    world.set_rule(world.get_location("Red Cross"), Has("Medicine"))
+    world.set_rule(world.get_location("Wall Street"), Has("Banking") & Has("Corporation"))
+    world.set_rule(world.get_location("West Point"), Has("Military Tradition"))
+
 def set_gp_rules(world: Civ4World) -> None:
-    # TODO figure out how to limit this further, probably with more region
+    # TODO figure out how to limit this further, probably with more regions
     scientist_access = world.get_entrance("Can Produce Great Scientist")
     artist_access = world.get_entrance("Can Produce Great Artist")
     spy_access = world.get_entrance("Can Produce Great Spy")

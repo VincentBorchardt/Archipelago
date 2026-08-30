@@ -2,6 +2,9 @@ from __future__ import annotations
 
 from BaseClasses import ItemClassification
 
+# TODO find a way to refactor this such that I don't need separate lists for each location group/item group
+# Probably involves splitting up LOCATION_NAME_TO_ID/ITEM_NAME_TO_ID and adding it back together
+
 ### LOCATION CONSTANTS ###
 
 LOCATION_NAME_TO_ID = {
@@ -213,21 +216,20 @@ LOCATION_NAME_TO_ID = {
     "The Apostolic Palace": 233,
     "Cristo Redentor": 234,
 
-    # --- National Wonder Locations (IDs 241 -  ---
+    # --- National Wonder Locations (IDs 241 - 253) ---
     "Heroic Epic": 241,
     "National Epic": 242,
     "Iron Works": 243,
-    "Mount Rushmore": 244,
+    "Mt. Rushmore": 244,
     "Red Cross": 245,
-    "Scotland Yard": 246,
-    "Oxford University": 247,
-    "Wall Street": 248,
-    "Globe Theatre": 249,
-    "Hermitage": 250,
-    "Moai Statues": 251,
-    "National Park": 252,
-    "Forbidden Palace": 253,
-    "West Point": 254,
+    "Oxford University": 246,
+    "Wall Street": 247,
+    "Globe Theatre": 248,
+    "Hermitage": 249,
+    "Moai Statues": 250,
+    "National Park": 251,
+    "Forbidden Palace": 252,
+    "West Point": 253,
 }
 
 ### TECHSANITY LOCATION CONSTANTS ###
@@ -459,6 +461,22 @@ WORLD_WONDER_LOCATIONS = [
     "Shwedagon Paya",
     "The Apostolic Palace",
     "Cristo Redentor",
+]
+
+NATIONAL_WONDER_LOCATIONS = [
+    "Heroic Epic",
+    "National Epic",
+    "Iron Works",
+    "Mt. Rushmore",
+    "Red Cross",
+    "Oxford University",
+    "Wall Street",
+    "Globe Theatre",
+    "Hermitage",
+    "Moai Statues",
+    "National Park",
+    "Forbidden Palace",
+    "West Point",
 ]
 
 ### ITEM CONSTANTS ###
@@ -756,12 +774,14 @@ DEFAULT_ITEM_CLASSIFICATIONS = {
     "5 Gold": ItemClassification.filler,
 }
 
-USEFUL_WONDER_TECHS = [
+USEFUL_WORLD_WONDER_TECHS = [
     "Communism",
     "Democracy",
+    "Robotics",
+]
+USEFUL_NATIONAL_WONDER_TECHS = [
     "Fascism",
     "Military Tradition",
-    "Robotics",
 ]
 ANCIENT_TECHS = {
     "The Wheel",

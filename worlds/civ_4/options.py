@@ -47,17 +47,25 @@ class WorldWondersanity(DefaultOnToggle):
 
     display_name = "World Wonders"
 
+class NationalWondersanity(DefaultOnToggle):
+    """
+    Turns completed National Wonders into locations in the multiworld.
+    """
+
+    display_name = "National Wonders"
+
 @dataclass
 class Civ4Options(PerGameCommonOptions):
     techsanity: Techsanity
     techsanity_era_gates: TechsanityEraGates
     gpsanity: GPsanity
     world_wondersanity: WorldWondersanity
+    national_wondersanity: NationalWondersanity
 
 option_groups = [
     OptionGroup(
         "Wondersanity Options",
-        [WorldWondersanity]
+        [WorldWondersanity, NationalWondersanity],
     ),
 ]
 
