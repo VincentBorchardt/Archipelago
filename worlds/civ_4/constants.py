@@ -219,7 +219,7 @@ LOCATION_NAME_TO_ID = {
     # --- National Wonder Locations (IDs 241 - 253) ---
     "Heroic Epic": 241,
     "National Epic": 242,
-    "Iron Works": 243,
+    "Ironworks": 243,
     "Mt. Rushmore": 244,
     "Red Cross": 245,
     "Oxford University": 246,
@@ -466,7 +466,7 @@ WORLD_WONDER_LOCATIONS = [
 NATIONAL_WONDER_LOCATIONS = [
     "Heroic Epic",
     "National Epic",
-    "Iron Works",
+    "Ironworks",
     "Mt. Rushmore",
     "Red Cross",
     "Oxford University",
