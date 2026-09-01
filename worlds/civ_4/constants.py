@@ -581,6 +581,7 @@ FULL_TECH_ARRAY = [
 # Even if an item doesn't exist on specific options, it must be present in this lookup.
 # All Techs should be 1 to 100, then other stuff above that
 ITEM_NAME_TO_ID = {
+    # --- Technology Items (IDs 1 - 92) ---
     "The Wheel": 1,
     "Agriculture": 2,
     "Animal Husbandry": 3,
@@ -673,6 +674,17 @@ ITEM_NAME_TO_ID = {
     "Genetics": 90,
     "Stealth": 91,
     "Future Tech": 92,
+
+    # --- Unit Items (IDs 101 - 107) ---
+    "Great Prophet": 101,
+    "Great Artist": 102,
+    "Great Scientist": 103,
+    "Great Merchant": 104,
+    "Great Engineer": 105,
+    "Great General": 106,
+    "Great Spy": 107,
+
+    # --- Gold Items (IDs 1001) ---
     "5 Gold": 1001,
 }
 
@@ -771,6 +783,15 @@ DEFAULT_ITEM_CLASSIFICATIONS = {
     "Genetics": ItemClassification.progression,
     "Stealth": ItemClassification.progression, # Doesn't need to be if Archipelago Future Tech is removed
     "Future Tech": ItemClassification.filler, # Determine if there should be multiple in the pool
+
+    "Great Prophet": ItemClassification.useful,
+    "Great Artist": ItemClassification.useful,
+    "Great Scientist": ItemClassification.useful,
+    "Great Merchant": ItemClassification.useful,
+    "Great Engineer": ItemClassification.useful,
+    "Great General": ItemClassification.useful,
+    "Great Spy": ItemClassification.useful,
+
     "5 Gold": ItemClassification.filler,
 }
 

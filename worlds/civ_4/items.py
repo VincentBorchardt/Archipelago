@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from math import ceil
 from typing import TYPE_CHECKING
 
 from BaseClasses import Item
@@ -41,10 +42,6 @@ def create_item_with_correct_classification(world: Civ4World, name: str) -> Civ4
 def create_all_items(world: Civ4World) -> None:
     # This is the function in which we will create all the items that this world submits to the multiworld item pool.
     # There must be exactly as many items as there are locations.
-    # In our case, there are either six or seven locations.
-    # We must make sure that when there are six locations, there are six items,
-    # and when there are seven locations, there are seven items.
-
     # Creating items should generally be done via the world's create_item method.
     # First, we create a list containing all the items that always exist.
 
@@ -53,6 +50,17 @@ def create_all_items(world: Civ4World) -> None:
     if world.options.techsanity:
         for tech_name in FULL_TECH_ARRAY:
             itempool.append(world.create_item(tech_name))
+
+    if world.options.gpsanity > 0:
+        total_gps = ceil(world.options.gpsanity / 2)
+        for i in range (0, total_gps):
+            itempool.append(world.create_item("Great Prophet"))
+            itempool.append(world.create_item("Great Artist"))
+            itempool.append(world.create_item("Great Scientist"))
+            itempool.append(world.create_item("Great Merchant"))
+            itempool.append(world.create_item("Great Engineer"))
+            itempool.append(world.create_item("Great General"))
+            itempool.append(world.create_item("Great Spy"))
 
 
     # Archipelago requires that each world submits as many locations as it submits items.
