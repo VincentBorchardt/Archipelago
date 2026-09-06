@@ -10,6 +10,7 @@ from NetUtils import ClientStatus, NetworkItem, HintStatus
 from Utils import gui_enabled
 
 import socket
+import struct
 import select
 import json
 
@@ -162,7 +163,8 @@ class Civ4Context(CommonContext):
             message_dict = args | message_dict
         print(str(message_dict))
         message_pickle = pickle.dumps(message_dict, protocol=2)
-        civ_4_writer.write(message_pickle)
+        length_header = struct.pack(">I", len(message_pickle))
+        civ_4_writer.write(length_header + message_pickle)
         civ_4_writer.drain()
 
     def on_package(self, cmd: str, args: dict[str, Any]) -> None:
