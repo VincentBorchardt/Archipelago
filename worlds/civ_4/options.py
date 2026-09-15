@@ -54,6 +54,14 @@ class NationalWondersanity(DefaultOnToggle):
 
     display_name = "National Wonders"
 
+class UniqueUnitItems(DefaultOnToggle):
+    """
+    Adds the ability to build unique units to the item pool.
+    May not add every item if there aren't enough locations to fill.
+    """
+
+    display_name = "Unique Units"
+
 @dataclass
 class Civ4Options(PerGameCommonOptions):
     techsanity: Techsanity
@@ -61,6 +69,7 @@ class Civ4Options(PerGameCommonOptions):
     gpsanity: GPsanity
     world_wondersanity: WorldWondersanity
     national_wondersanity: NationalWondersanity
+    unique_units: UniqueUnitItems
 
 option_groups = [
     OptionGroup(

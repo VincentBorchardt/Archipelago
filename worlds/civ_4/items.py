@@ -62,13 +62,14 @@ def create_all_items(world: Civ4World) -> None:
             itempool.append(world.create_item("Great General"))
             itempool.append(world.create_item("Great Spy"))
 
+    unique_buildables = create_unique_buildables_list(world)
+    for item in unique_buildables:
+        itempool.append(world.create_item(item))
 
-    # Archipelago requires that each world submits as many locations as it submits items.
-    # This is where we can use our filler and trap items.
+
     # Creating filler items works the same as any other item. But there is a question:
     # How many filler items do we actually need to create?
     # We can compare the size of our itempool so far to the number of locations in our world.
-
     # The length of our itempool is easy to determine, since we have it as a list.
     number_of_items = len(itempool)
 
@@ -80,22 +81,9 @@ def create_all_items(world: Civ4World) -> None:
     needed_number_of_filler_items = number_of_unfilled_locations - number_of_items
 
     # Finally, we create that many filler items and add them to the itempool.
-    # As discussed above, our world must have a get_filler_item_name() function defined,
-    # which must return the name of an infinitely repeatable filler item.
-    # Defining this function enables the use of a helper function called world.create_filler().
+    # Defining get_filler_item_name() enables the use of a helper function called world.create_filler().
     # You can just use this function directly to create as many filler items as you need to complete your itempool.
     itempool += [world.create_filler() for _ in range(needed_number_of_filler_items)]
-
-    # But... is that the right option for your game? Let's explore that.
-    # For some games, the concepts of "regular itempool filler" and "additionally created filler" are different.
-    # These games might want / require specific amounts of specific filler items in their regular pool.
-    # To achieve this, they will have to intentionally create the correct quantities using world.create_item().
-    # They may still use world.create_filler() to fill up the rest of their itempool with "repeatable filler",
-    # after creating their "specific quantity" filler and still having room left over.
-
-    # But there are many other games which *only* have infinitely repeatable filler items.
-    # They don't care about specific amounts of specific filler items, instead only caring about the proportions.
-    # In this case, world.create_filler() can just be used for the entire filler itempool.
 
     # Anyway. With our world's itempool finalized, we now need to submit it to the multiworld itempool.
     # This is how the generator actually knows about the existence of our items.
@@ -106,3 +94,16 @@ def create_all_items(world: Civ4World) -> None:
     # They will be sent as soon as they connect for the first time (depending on your client's item handling flag).
     # Players can add precollected items themselves via the generic "start_inventory" option.
     # If you want to add your own precollected items, you can do so via world.push_precollected().
+
+def create_unique_buildables_list(world: Civ4World) -> list[str]:
+    unique_buildables = []
+    if world.options.unique_units:
+        unique_buildables.extend(UNIQUE_UNIT_ARRAY)
+    # TODO extend unique buildings into unique_buildables once I implement them
+    if len(unique_buildables) > 0:
+        number_of_unfilled_locations = len(world.multiworld.get_unfilled_locations(world.player))
+        if number_of_unfilled_locations >= len(unique_buildables):
+            return unique_buildables
+        else:
+            return world.random.sample(unique_buildables, number_of_unfilled_locations)
+    return []
