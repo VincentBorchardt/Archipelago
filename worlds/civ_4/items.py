@@ -86,14 +86,7 @@ def create_all_items(world: Civ4World) -> None:
     itempool += [world.create_filler() for _ in range(needed_number_of_filler_items)]
 
     # Anyway. With our world's itempool finalized, we now need to submit it to the multiworld itempool.
-    # This is how the generator actually knows about the existence of our items.
     world.multiworld.itempool += itempool
-
-    # Sometimes, you might want the player to start with certain items already in their inventory.
-    # These items are called "precollected items".
-    # They will be sent as soon as they connect for the first time (depending on your client's item handling flag).
-    # Players can add precollected items themselves via the generic "start_inventory" option.
-    # If you want to add your own precollected items, you can do so via world.push_precollected().
 
 def create_unique_buildables_list(world: Civ4World) -> list[str]:
     unique_buildables = []

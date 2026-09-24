@@ -22,12 +22,10 @@ class Civ4World(World):
     item_name_groups: ClassVar[dict[str, set[str]]] = constants.ITEM_NAME_GROUPS
 
     # There is always one region that the generator starts from & assumes you can always go back to.
-    # This defaults to "Menu", but you can change it by overriding origin_region_name.
     origin_region_name = "Initial"
 
     # Our world class must have certain functions ("steps") that get called during generation.
     # The main ones are: create_regions, set_rules, create_items.
-    # For better structure and readability, we put each of these in their own file.
     def create_regions(self) -> None:
         regions.create_and_connect_regions(self)
         locations.create_all_locations(self)
@@ -47,7 +45,6 @@ class Civ4World(World):
     # The way it does this is by calling get_filler_item_name.
     # For this purpose, your world *must* have at least one infinitely repeatable item (usually filler).
     # You must override this function and return this infinitely repeatable item's name.
-    # In our case, we defined a function called get_random_filler_item_name for this purpose in our items.py.
     def get_filler_item_name(self) -> str:
         return items.get_random_filler_item_name(self)
 

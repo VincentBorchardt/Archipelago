@@ -75,9 +75,7 @@ def create_gp_regions(world: Civ4World) -> list[Region]:
 
 def connect_regions(world: Civ4World) -> None:
     # We have regions now, but still need to connect them to each other.
-    # But wait, we no longer have access to the region variables we created in create_all_regions()!
-    # Luckily, once you've submitted your regions to multiworld.regions,
-    # you can get them at any time using world.get_region(...).
+    # Once you've submitted your regions to multiworld.regions, you can get them at any time using world.get_region(...).
     initial = world.get_region("Initial")
 
     if gated_techsanity(world):

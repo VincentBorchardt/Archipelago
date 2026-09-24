@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 
 from Options import Choice, OptionGroup, PerGameCommonOptions, Range, Toggle, DefaultOnToggle
-from worlds.apquest.options import option_groups
 
 
 class Techsanity(DefaultOnToggle):

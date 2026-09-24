@@ -157,6 +157,7 @@ class Civ4Context(CommonContext):
                 message_dict["gpsanity"] = slot_data.get("gpsanity")
                 message_dict["worldWondersanity"] = slot_data.get("world_wondersanity")
                 message_dict["nationalWondersanity"] = slot_data.get("national_wondersanity")
+                message_dict["uniqueUnits"] = slot_data.get("unique_units")
         if args and cmd == "ReceiveItems":
             message_dict = args | message_dict
         if args and cmd == "GetHints":

@@ -14,7 +14,6 @@ def set_all_rules(world: Civ4World) -> None:
     # In order for AP to generate an item layout that is actually possible for the player to complete,
     # we need to define rules for our Entrances and Locations.
     # Note: Regions do not have rules, the Entrances connecting them do!
-    # We'll do entrances first, then locations, and then finally we set our victory condition.
 
     set_all_entrance_rules(world)
     set_all_location_rules(world)
@@ -45,7 +44,6 @@ def set_all_location_rules(world: Civ4World) -> None:
 def set_completion_condition(world: Civ4World) -> None:
     # Finally, we need to set a completion condition for our world, defining what the player needs to win the game.
     # For this, we can use world.set_completion_rule.
-    # You can just set a completion condition directly like any other condition, referencing items the player receives:
     world.set_completion_rule(Has("Victory"))
 
 def set_tech_rules(world: Civ4World) -> None:
