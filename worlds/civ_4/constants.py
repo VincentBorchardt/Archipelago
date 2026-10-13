@@ -426,6 +426,7 @@ GREAT_SPY_LOCATIONS = [
     "Great Spy Check 10",
 ]
 
+### WONDERSANITY LOCATION CONSTANTS ###
 WORLD_WONDER_LOCATIONS = [
     "The Pyramids",
     "Stonehenge",
@@ -462,7 +463,6 @@ WORLD_WONDER_LOCATIONS = [
     "The Apostolic Palace",
     "Cristo Redentor",
 ]
-
 NATIONAL_WONDER_LOCATIONS = [
     "Heroic Epic",
     "National Epic",
@@ -613,6 +613,44 @@ UNIQUE_UNIT_ARRAY = [
     "Viking Berserker",
 ]
 
+ARCHIPELAGO_BUILDING_COMMON_NAMES = [
+    "American Mall",
+    "Arabian Madrassa",
+    "Aztec Sacrificial Altar",
+    "Babylonian Garden",
+    "Byzantine Hippodrome",
+    "Carthaginian Cothon",
+    "Celtic Dun",
+    "Chinese Pavilion",
+    "Dutch Dike",
+    "Egyptian Obelisk",
+    "English Stock Exchange",
+    "Ethiopian Stele",
+    "French Salon",
+    "German Assembly Plant",
+    "Greek Odeon",
+    "Holy Roman Rathaus",
+    "Incan Terrace",
+    "Indian Mausoleum",
+    "Japanese Shale Plant",
+    "Khmer Baray",
+    "Korean Seowon",
+    "Malian Mint",
+    "Mayan Ball Court",
+    "Mongolian Ger",
+    "Native American Totem Pole",
+    "Ottoman Hammam",
+    "Persian Apothecary",
+    "Portuguese Feitoria",
+    "Roman Forum",
+    "Russian Research Institute",
+    "Spanish Citadel",
+    "Sumerian Ziggurat",
+    "Viking Trading Post",
+    "Zulu Ikhanda",
+]
+
+
 # Every item must have a unique integer ID associated with it.
 # We will have a lookup from item name to ID here that, in world.py, we will import and bind to the world class.
 # Even if an item doesn't exist on specific options, it must be present in this lookup.
@@ -756,6 +794,42 @@ ITEM_NAME_TO_ID = {
     "Sumerian Vulture": 233,
     "Viking Berserker": 234,
 
+    # --- Unique Building Items (IDs 251 - 284)
+    "American Mall": 251,
+    "Arabian Madrassa": 252,
+    "Aztec Sacrificial Altar": 253,
+    "Babylonian Garden": 254,
+    "Byzantine Hippodrome": 255,
+    "Carthaginian Cothon": 256,
+    "Celtic Dun": 257,
+    "Chinese Pavilion": 258,
+    "Dutch Dike": 259,
+    "Egyptian Obelisk": 260,
+    "English Stock Exchange": 261,
+    "Ethiopian Stele": 262,
+    "French Salon": 263,
+    "German Assembly Plant": 264,
+    "Greek Odeon": 265,
+    "Holy Roman Rathaus": 266,
+    "Incan Terrace": 267,
+    "Indian Mausoleum": 268,
+    "Japanese Shale Plant": 269,
+    "Khmer Baray": 270,
+    "Korean Seowon": 271,
+    "Malian Mint": 272,
+    "Mayan Ball Court": 273,
+    "Mongolian Ger": 274,
+    "Native American Totem Pole": 275,
+    "Ottoman Hammam": 276,
+    "Persian Apothecary": 277,
+    "Portuguese Feitoria": 278,
+    "Roman Forum": 279,
+    "Russian Research Institute": 280,
+    "Spanish Citadel": 281,
+    "Sumerian Ziggurat": 282,
+    "Viking Trading Post": 283,
+    "Zulu Ikhanda": 284,
+
     # --- Gold Items (IDs 1001) ---
     "5 Gold": 1001,
 }
@@ -898,6 +972,41 @@ DEFAULT_ITEM_CLASSIFICATIONS = {
     "Spanish Conquistador": ItemClassification.useful,
     "Sumerian Vulture": ItemClassification.useful,
     "Viking Berserker": ItemClassification.useful,
+
+    "American Mall": ItemClassification.useful,
+    "Arabian Madrassa": ItemClassification.useful,
+    "Aztec Sacrificial Altar": ItemClassification.useful,
+    "Babylonian Garden": ItemClassification.useful,
+    "Byzantine Hippodrome": ItemClassification.useful,
+    "Carthaginian Cothon": ItemClassification.useful,
+    "Celtic Dun": ItemClassification.useful,
+    "Chinese Pavilion": ItemClassification.useful,
+    "Dutch Dike": ItemClassification.useful,
+    "Egyptian Obelisk": ItemClassification.useful,
+    "English Stock Exchange": ItemClassification.useful,
+    "Ethiopian Stele": ItemClassification.useful,
+    "French Salon": ItemClassification.useful,
+    "German Assembly Plant": ItemClassification.useful,
+    "Greek Odeon": ItemClassification.useful,
+    "Holy Roman Rathaus": ItemClassification.useful,
+    "Incan Terrace": ItemClassification.useful,
+    "Indian Mausoleum": ItemClassification.useful,
+    "Japanese Shale Plant": ItemClassification.useful,
+    "Khmer Baray": ItemClassification.useful,
+    "Korean Seowon": ItemClassification.useful,
+    "Malian Mint": ItemClassification.useful,
+    "Mayan Ball Court": ItemClassification.useful,
+    "Mongolian Ger": ItemClassification.useful,
+    "Native American Totem Pole": ItemClassification.useful,
+    "Ottoman Hammam": ItemClassification.useful,
+    "Persian Apothecary": ItemClassification.useful,
+    "Portuguese Feitoria": ItemClassification.useful,
+    "Roman Forum": ItemClassification.useful,
+    "Russian Research Institute": ItemClassification.useful,
+    "Spanish Citadel": ItemClassification.useful,
+    "Sumerian Ziggurat": ItemClassification.useful,
+    "Viking Trading Post": ItemClassification.useful,
+    "Zulu Ikhanda": ItemClassification.useful,
 
     "5 Gold": ItemClassification.filler,
 }

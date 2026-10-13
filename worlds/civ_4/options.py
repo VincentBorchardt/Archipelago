@@ -61,6 +61,15 @@ class UniqueUnitItems(DefaultOnToggle):
 
     display_name = "Unique Units"
 
+class UniqueBuildingItems(Toggle):
+    """
+    Adds the ability to build unique buildings to the item pool.
+    May not add every item if there aren't enough locations to fill.
+    Warning: Can cause in-game lag on entering city screens and breaks wit non-AP World Civilizations.
+    """
+
+    display_name = "Unique Buildings"
+
 @dataclass
 class Civ4Options(PerGameCommonOptions):
     techsanity: Techsanity
@@ -69,6 +78,7 @@ class Civ4Options(PerGameCommonOptions):
     world_wondersanity: WorldWondersanity
     national_wondersanity: NationalWondersanity
     unique_units: UniqueUnitItems
+    unique_buildings: UniqueBuildingItems
 
 option_groups = [
     OptionGroup(

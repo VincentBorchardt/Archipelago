@@ -60,4 +60,5 @@ class Civ4World(World):
             "world_wondersanity",
             "national_wondersanity",
             "unique_units",
+            "unique_buildings",
         )
