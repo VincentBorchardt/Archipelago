@@ -92,6 +92,8 @@ def create_unique_buildables_list(world: Civ4World) -> list[str]:
     unique_buildables = []
     if world.options.unique_units:
         unique_buildables.extend(UNIQUE_UNIT_ARRAY)
+    if world.options.unique_buildings:
+        unique_buildables.extend(UNIQUE_BUILDING_ARRAY)
     # TODO extend unique buildings into unique_buildables once I implement them
     if len(unique_buildables) > 0:
         number_of_unfilled_locations = len(world.multiworld.get_unfilled_locations(world.player))

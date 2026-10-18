@@ -613,7 +613,7 @@ UNIQUE_UNIT_ARRAY = [
     "Viking Berserker",
 ]
 
-ARCHIPELAGO_BUILDING_COMMON_NAMES = [
+UNIQUE_BUILDING_ARRAY = [
     "American Mall",
     "Arabian Madrassa",
     "Aztec Sacrificial Altar",
