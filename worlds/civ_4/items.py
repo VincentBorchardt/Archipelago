@@ -73,8 +73,7 @@ def create_all_items(world: Civ4World) -> None:
     # The length of our itempool is easy to determine, since we have it as a list.
     number_of_items = len(itempool)
 
-    # The number of locations is also easy to determine, but we have to be careful.
-    # What we actually want is the number of *unfilled* locations. Luckily, there is a helper method for this:
+    # The number of *unfilled* locations is also easy to determine, and there is a helper method for this:
     number_of_unfilled_locations = len(world.multiworld.get_unfilled_locations(world.player))
 
     # Now, we just subtract the number of items from the number of locations to get the number of empty item slots.

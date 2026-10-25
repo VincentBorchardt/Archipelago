@@ -70,6 +70,12 @@ class UniqueBuildingItems(Toggle):
 
     display_name = "Unique Buildings"
 
+class PeekableLocations(Choice):
+    display_name = "Peekable Locations"
+    option_none = 0
+    option_great_people = 1
+    option_all = 2
+
 @dataclass
 class Civ4Options(PerGameCommonOptions):
     techsanity: Techsanity
@@ -79,8 +85,13 @@ class Civ4Options(PerGameCommonOptions):
     national_wondersanity: NationalWondersanity
     unique_units: UniqueUnitItems
     unique_buildings: UniqueBuildingItems
+    peekable_locations: PeekableLocations
 
 option_groups = [
+    OptionGroup(
+        "Techsanity Options",
+        [Techsanity, TechsanityEraGates]
+    ),
     OptionGroup(
         "Wondersanity Options",
         [WorldWondersanity, NationalWondersanity],

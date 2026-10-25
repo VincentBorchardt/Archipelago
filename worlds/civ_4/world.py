@@ -61,4 +61,5 @@ class Civ4World(World):
             "national_wondersanity",
             "unique_units",
             "unique_buildings",
+            "peekable_locations",
         )

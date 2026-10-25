@@ -68,6 +68,7 @@ class Civ4Context(CommonContext):
                 # if data is not received break
                 break
             converted_data = pickle.loads(data)
+            print(converted_data["type"])
             if converted_data["type"] == "Connect":
                 self.server_address = converted_data["server"]
                 self.auth = converted_data["username"]
@@ -77,6 +78,9 @@ class Civ4Context(CommonContext):
             elif converted_data["type"] == "LocationChecks":
                 locations = converted_data["locations"]
                 await self.check_locations(locations)
+            elif converted_data["type"] == "GetLocationScouts":
+                print("getting location scouts")
+                await self.send_msgs[{"cmd": "LocationScouts", "locations": list(self.server_locations)}]
             elif converted_data["type"] == "ReceiveItems":
                 items = []
                 print(self.items_received)
@@ -113,6 +117,12 @@ class Civ4Context(CommonContext):
                     commandprocessor(command)
 
             print("from connected user: " + str(converted_data))
+
+    async def scout_locations(self, locations):
+        print("Running scout_locations")
+        print(self.missing_locations)
+        print(self.checked_locations)
+        print(self.server_locations)
 
     def parse_hint(self, hint):
         if not hint.get("status"):  # Allows connecting to old servers
@@ -159,6 +169,7 @@ class Civ4Context(CommonContext):
                 message_dict["nationalWondersanity"] = slot_data.get("national_wondersanity")
                 message_dict["uniqueUnits"] = slot_data.get("unique_units")
                 message_dict["uniqueBuildings"] = slot_data.get("unique_buildings")
+                message_dict["peekableLocations"] = slot_data.get("peekable_locations")
         if args and cmd == "ReceiveItems":
             message_dict = args | message_dict
         if args and cmd == "GetHints":
@@ -176,6 +187,14 @@ class Civ4Context(CommonContext):
         if cmd == "Connected":
             print("args = " + str(args))
             self.send_message_to_civ_4(cmd, args)
+        if cmd == "LocationInfo":
+            print("looking at LocationInfo")
+            scouts = {}
+            print(self.locations_info)
+            for item in self.locations_info:
+                scouts[item] = self.locations_info[item]
+            print(scouts)
+            self.send_message_to_civ_4("GetLocationScouts", {"locations":scouts})
         if cmd == "PrintJSON":
             pass
             # TODO make this batch data in a list, so it can be specifically requested later
