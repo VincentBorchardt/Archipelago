@@ -80,7 +80,7 @@ class Civ4Context(CommonContext):
                 await self.check_locations(locations)
             elif converted_data["type"] == "GetLocationScouts":
                 print("getting location scouts")
-                await self.send_msgs[{"cmd": "LocationScouts", "locations": list(self.server_locations)}]
+                await self.send_msgs([{"cmd": "LocationScouts", "locations": list(self.server_locations)}])
             elif converted_data["type"] == "ReceiveItems":
                 items = []
                 print(self.items_received)
@@ -190,9 +190,11 @@ class Civ4Context(CommonContext):
         if cmd == "LocationInfo":
             print("looking at LocationInfo")
             scouts = {}
-            print(self.locations_info)
+            #print(self.locations_info)
             for item in self.locations_info:
-                scouts[item] = self.locations_info[item]
+                network_item = self.locations_info[item]
+                item_name = self.item_names.lookup_in_slot(network_item.item, network_item.player)
+                scouts[item] = item_name
             print(scouts)
             self.send_message_to_civ_4("GetLocationScouts", {"locations":scouts})
         if cmd == "PrintJSON":
