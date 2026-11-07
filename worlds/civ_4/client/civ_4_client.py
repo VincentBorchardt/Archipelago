@@ -174,6 +174,8 @@ class Civ4Context(CommonContext):
             message_dict = args | message_dict
         if args and cmd == "GetHints":
             message_dict = args | message_dict
+        if args and cmd == "GetLocationScouts":
+            message_dict = args | message_dict
         print(str(message_dict))
         message_pickle = pickle.dumps(message_dict, protocol=2)
         length_header = struct.pack(">I", len(message_pickle))
@@ -194,7 +196,8 @@ class Civ4Context(CommonContext):
             for item in self.locations_info:
                 network_item = self.locations_info[item]
                 item_name = self.item_names.lookup_in_slot(network_item.item, network_item.player)
-                scouts[item] = item_name
+                flag_name = network_item.flags
+                scouts[item] = (item_name, flag_name)
             print(scouts)
             self.send_message_to_civ_4("GetLocationScouts", {"locations":scouts})
         if cmd == "PrintJSON":
