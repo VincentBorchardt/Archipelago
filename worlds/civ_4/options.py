@@ -53,6 +53,14 @@ class NationalWondersanity(DefaultOnToggle):
 
     display_name = "National Wonders"
 
+class Resourcesanity(DefaultOnToggle):
+    """
+    Turns connected resources into locations in the multiworld.
+    Only counts resources connected to the capital.
+    """
+
+    display_name = "Resources"
+
 class UniqueUnitItems(DefaultOnToggle):
     """
     Adds the ability to build unique units to the item pool.
@@ -65,7 +73,7 @@ class UniqueBuildingItems(Toggle):
     """
     Adds the ability to build unique buildings to the item pool.
     May not add every item if there aren't enough locations to fill.
-    Warning: Can cause in-game lag on entering city screens and breaks wit non-AP World Civilizations.
+    Warning: Can cause in-game lag on entering city screens and breaks with non-AP World Civilizations.
     """
 
     display_name = "Unique Buildings"
@@ -83,6 +91,7 @@ class Civ4Options(PerGameCommonOptions):
     gpsanity: GPsanity
     world_wondersanity: WorldWondersanity
     national_wondersanity: NationalWondersanity
+    resourcesanity: Resourcesanity
     unique_units: UniqueUnitItems
     unique_buildings: UniqueBuildingItems
     peekable_locations: PeekableLocations

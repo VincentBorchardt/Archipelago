@@ -167,6 +167,7 @@ class Civ4Context(CommonContext):
                 message_dict["gpsanity"] = slot_data.get("gpsanity")
                 message_dict["worldWondersanity"] = slot_data.get("world_wondersanity")
                 message_dict["nationalWondersanity"] = slot_data.get("national_wondersanity")
+                message_dict["resourcesanity"] = slot_data.get("resourcesanity")
                 message_dict["uniqueUnits"] = slot_data.get("unique_units")
                 message_dict["uniqueBuildings"] = slot_data.get("unique_buildings")
                 message_dict["peekableLocations"] = slot_data.get("peekable_locations")

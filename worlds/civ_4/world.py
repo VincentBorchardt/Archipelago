@@ -59,6 +59,7 @@ class Civ4World(World):
             "gpsanity",
             "world_wondersanity",
             "national_wondersanity",
+            "resourcesanity",
             "unique_units",
             "unique_buildings",
             "peekable_locations",
