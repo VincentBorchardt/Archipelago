@@ -202,6 +202,39 @@ def set_gp_rules(world: Civ4World) -> None:
     world.set_rule(engineer_access, Has("Metal Casting"))
     world.set_rule(merchant_access, Has("Currency"))
 
+
+def set_resource_region_rules(world: Civ4World) -> None:
+    mining_access = world.get_entrance("Mining Access")
+    farm_access = world.get_entrance("Farm Access")
+    calendar_access = world.get_entrance("Calendar Access")
+    hunting_access = world.get_entrance("Hunting Access")
+    fishing_access = world.get_entrance("Fishing Access")
+    animal_access = world.get_entrance("Animal Access")
+    masonry_access = world.get_entrance("Masonry Access")
+    winery_access = world.get_entrance("Winery Access")
+    oil_access = world.get_entrance("Oil Access")
+    world.set_rule(mining_access, Has("Mining"))
+    world.set_rule(farm_access, Has("Agriculture"))
+    world.set_rule(calendar_access, Has("Calendar") & Has("Iron Working"))
+    world.set_rule(hunting_access, Has("Hunting"))
+    world.set_rule(fishing_access, Has("Fishing"))
+    world.set_rule(animal_access, Has("Animal Husbandry"))
+    world.set_rule(masonry_access, Has("Masonry"))
+    world.set_rule(winery_access, Has("Monarchy"))
+    # TODO Figure out a way to write this where it uses the farm and calendar regions
+    world.set_rule(oil_access, (Has ("Scientific Method") & (Has("Combustion") | Has("Plastics"))) |
+                   (Has("Corporation") & Has("Plastics") & (Has("Agriculture") | Has("Calendar"))))
+
+
+def set_resourcesanity_rules(world: Civ4World) -> None:
+    set_resource_region_rules(world)
+    world.set_rule(world.get_location("Aluminum"), Has("Industrialism") | (Has("Corporation") & Has("Rocketry") & Has("Steam Power")))
+    world.set_rule(world.get_location("Coal"), Has("Steam Power"))
+    world.set_rule(world.get_location("Copper"), Has("Bronze Working"))
+    world.set_rule(world.get_location("Iron"), Has("Iron Working"))
+    world.set_rule(world.get_location("Uranium"), Has("Physics"))
+    world.set_rule(world.get_location("Whale"), Has("Optics"))
+
 def set_techsanity_era_gates(world):
     classical_access = world.get_entrance("Ancient to Classical")
     medieval_access = world.get_entrance("Classical to Medieval")

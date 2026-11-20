@@ -29,6 +29,10 @@ def create_all_regions(world: Civ4World) -> None:
         gp_regions = create_gp_regions(world)
         regions += gp_regions
 
+    if world.options.resourcesanity:
+        resource_regions = create_resource_regions(world)
+        regions += resource_regions
+
     # We now need to add these regions to multiworld.regions so that AP knows about their existence.
     world.multiworld.regions += regions
 
@@ -73,6 +77,31 @@ def create_gp_regions(world: Civ4World) -> list[Region]:
 
     return regions
 
+def create_resource_regions(world: Civ4World) -> list[Region]:
+    mining_access = Region("Mining Access", world.player, world.multiworld)
+    farming_access = Region("Farming Access", world.player, world.multiworld)
+    calendar_access = Region("Calendar Access", world.player, world.multiworld)
+    hunting_access = Region("Hunting Access", world.player, world.multiworld)
+    fishing_access = Region("Fishing Access", world.player, world.multiworld)
+    animal_access = Region("Animal Access", world.player, world.multiworld)
+    masonry_access = Region("Masonry Access", world.player, world.multiworld)
+    winery_access = Region("Winery Access", world.player, world.multiworld)
+    oil_access = Region("Oil Access", world.player, world.multiworld)
+
+    regions = [
+        mining_access,
+        farming_access,
+        calendar_access,
+        hunting_access,
+        fishing_access,
+        animal_access,
+        masonry_access,
+        winery_access,
+        oil_access,
+    ]
+
+    return regions
+
 def connect_regions(world: Civ4World) -> None:
     # We have regions now, but still need to connect them to each other.
     # Once you've submitted your regions to multiworld.regions, you can get them at any time using world.get_region(...).
@@ -107,4 +136,25 @@ def connect_regions(world: Civ4World) -> None:
         initial.connect(great_prophet, "Can Produce Great Prophet")
         initial.connect(great_engineer, "Can Produce Great Engineer")
         initial.connect(great_merchant, "Can Produce Great Merchant")
+
+    if world.options.resourcesanity:
+        mining = world.get_region("Mining Access")
+        farming = world.get_region("Farming Access")
+        calendar = world.get_region("Calendar Access")
+        hunting = world.get_region("Hunting Access")
+        fishing = world.get_region("Fishing Access")
+        animal = world.get_region("Animal Access")
+        masonry = world.get_region("Masonry Access")
+        winery = world.get_region("Winery Access")
+        oil = world.get_region("Oil Access")
+        initial.connect(mining, "Can Connect Mining Resources")
+        initial.connect(farming, "Can Connect Farming Resources")
+        initial.connect(calendar, "Can Connect Calendar Resources")
+        initial.connect(hunting, "Can Connect Hunting Resources")
+        initial.connect(fishing, "Can Connect Fishing Resources")
+        initial.connect(animal, "Can Connect Animal Resources")
+        initial.connect(masonry, "Can Connect Masonry Resources")
+        initial.connect(winery, "Can Connect Winery Resources")
+        initial.connect(oil, "Can Connect Oil Resources")
+
 

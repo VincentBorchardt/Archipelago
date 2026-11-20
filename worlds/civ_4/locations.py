@@ -112,6 +112,43 @@ def create_regular_locations(world: Civ4World) -> None:
         national_wonders = get_location_names_with_ids(NATIONAL_WONDER_LOCATIONS)
         initial.add_locations(national_wonders, Civ4Location)
 
+    if world.options.resourcesanity:
+        mining_region = world.get_region("Mining Access")
+        mining_locations = get_location_names_with_ids(MINING_LOCATIONS)
+        mining_region.add_locations(mining_locations, Civ4Location)
+
+        farm_region = world.get_region("Farm Access")
+        farm_locations = get_location_names_with_ids(FARMING_LOCATIONS)
+        farm_region.add_locations(farm_locations, Civ4Location)
+
+        calendar_region = world.get_region("Calendar Access")
+        calendar_locations = get_location_names_with_ids(CALENDAR_LOCATIONS)
+        calendar_region.add_locations(calendar_locations, Civ4Location)
+
+        hunting_region = world.get_region("Hunting Access")
+        hunting_locations = get_location_names_with_ids(HUNTING_LOCATIONS)
+        hunting_region.add_locations(hunting_locations, Civ4Location)
+
+        fishing_region = world.get_region("Fishing Access")
+        fishing_locations = get_location_names_with_ids(FISHING_LOCATIONS)
+        fishing_region.add_locations(fishing_locations, Civ4Location)
+
+        animal_region = world.get_region("Animal Access")
+        animal_locations = get_location_names_with_ids(ANIMAL_LOCATIONS)
+        animal_region.add_locations(animal_locations, Civ4Location)
+
+        masonry_region = world.get_region("Masonry Access")
+        masonry_locations = get_location_names_with_ids(MASONRY_LOCATIONS)
+        masonry_region.add_locations(masonry_locations, Civ4Location)
+
+        winery_region = world.get_region("Winery Access")
+        winery_locations = get_location_names_with_ids(WINERY_LOCATIONS)
+        winery_region.add_locations(winery_locations, Civ4Location)
+
+        oil_region = world.get_region("Oil Access")
+        oil_locations = get_location_names_with_ids(OIL_LOCATIONS)
+        oil_region.add_locations(oil_locations, Civ4Location)
+
 
 
 def create_events(world: Civ4World) -> None:

@@ -514,39 +514,64 @@ NATIONAL_WONDER_LOCATIONS = [
     "West Point",
 ]
 
-RESOURCE_LOCATIONS = [
+### RESOURCESANITY LOCATION CONSTANTS ###
+MINING_LOCATIONS = [
     "Aluminum",
     "Coal",
     "Copper",
-    "Horse",
     "Iron",
-    "Ivory",
-    "Marble",
-    "Oil",
-    "Stone",
     "Uranium",
-    "Dye",
-    "Fur",
     "Gems",
     "Gold",
+    "Silver",
+]
+
+FARMING_LOCATIONS = [
+    "Corn",
+    "Rice",
+    "Wheat",
+]
+
+CALENDAR_LOCATIONS = [
+    "Dye",
     "Incense",
     "Silk",
-    "Silver",
     "Spices",
     "Sugar",
-    "Whale",
-    "Wine",
     "Banana",
-    "Clam",
-    "Corn",
-    "Cow",
-    "Crab",
+]
+
+HUNTING_LOCATIONS = [
+    "Ivory",
+    "Fur",
     "Deer",
+]
+
+FISHING_LOCATIONS = [
+    "Whale",
+    "Clam",
+    "Crab",
     "Fish",
+]
+
+ANIMAL_LOCATIONS = [
+    "Horse",
+    "Cow",
     "Pig",
-    "Rice",
     "Sheep",
-    "Wheat",
+]
+
+MASONRY_LOCATIONS = [
+    "Marble",
+    "Stone",
+]
+
+WINERY_LOCATIONS = [
+    "Wine",
+]
+
+OIL_LOCATIONS = [
+    "Oil",
 ]
 
 ### ITEM CONSTANTS ###
