@@ -19,19 +19,19 @@ def set_all_rules(world: Civ4World) -> None:
     set_all_location_rules(world)
     set_completion_condition(world)
 
+# TODO organize this better that isn't just copying APQuest
 def set_all_entrance_rules(world: Civ4World) -> None:
-    # First, we need to actually grab our entrances. Luckily, there is a helper method for this.
     if world.options.gpsanity > 0:
         set_gp_rules(world)
 
     if world.options.techsanity and world.options.techsanity_era_gates > 0:
         set_techsanity_era_gates(world)
 
+
 def set_all_location_rules(world: Civ4World) -> None:
     # Location rules work no differently from Entrance rules.
     # Thus, their logical requirements are covered by the Entrance rules of the Entrances that were required to
     # reach the region.
-    # So, we need to set requirements on the Locations themselves.
     if world.options.techsanity:
         set_tech_rules(world)
 
@@ -40,6 +40,9 @@ def set_all_location_rules(world: Civ4World) -> None:
 
     if world.options.national_wondersanity:
         set_national_wonder_rules(world)
+
+    if world.options.resourcesanity:
+        set_resourcesanity_rules(world)
 
 def set_completion_condition(world: Civ4World) -> None:
     # Finally, we need to set a completion condition for our world, defining what the player needs to win the game.
@@ -204,15 +207,15 @@ def set_gp_rules(world: Civ4World) -> None:
 
 
 def set_resource_region_rules(world: Civ4World) -> None:
-    mining_access = world.get_entrance("Mining Access")
-    farm_access = world.get_entrance("Farm Access")
-    calendar_access = world.get_entrance("Calendar Access")
-    hunting_access = world.get_entrance("Hunting Access")
-    fishing_access = world.get_entrance("Fishing Access")
-    animal_access = world.get_entrance("Animal Access")
-    masonry_access = world.get_entrance("Masonry Access")
-    winery_access = world.get_entrance("Winery Access")
-    oil_access = world.get_entrance("Oil Access")
+    mining_access = world.get_entrance("Can Connect Mining Resources")
+    farm_access = world.get_entrance("Can Connect Farming Resources")
+    calendar_access = world.get_entrance("Can Connect Calendar Resources")
+    hunting_access = world.get_entrance("Can Connect Hunting Resources")
+    fishing_access = world.get_entrance("Can Connect Fishing Resources")
+    animal_access = world.get_entrance("Can Connect Animal Resources")
+    masonry_access = world.get_entrance("Can Connect Masonry Resources")
+    winery_access = world.get_entrance("Can Connect Winery Resources")
+    oil_access = world.get_entrance("Can Connect Oil Resources")
     world.set_rule(mining_access, Has("Mining"))
     world.set_rule(farm_access, Has("Agriculture"))
     world.set_rule(calendar_access, Has("Calendar") & Has("Iron Working"))
@@ -222,7 +225,7 @@ def set_resource_region_rules(world: Civ4World) -> None:
     world.set_rule(masonry_access, Has("Masonry"))
     world.set_rule(winery_access, Has("Monarchy"))
     # TODO Figure out a way to write this where it uses the farm and calendar regions
-    world.set_rule(oil_access, (Has ("Scientific Method") & (Has("Combustion") | Has("Plastics"))) |
+    world.set_rule(oil_access, (Has ("Scientific Method") & (Has("Combustion") | (Has("Plastics") & Has("Fishing")))) |
                    (Has("Corporation") & Has("Plastics") & (Has("Agriculture") | Has("Calendar"))))
 
 

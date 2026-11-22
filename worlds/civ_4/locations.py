@@ -117,7 +117,7 @@ def create_regular_locations(world: Civ4World) -> None:
         mining_locations = get_location_names_with_ids(MINING_LOCATIONS)
         mining_region.add_locations(mining_locations, Civ4Location)
 
-        farm_region = world.get_region("Farm Access")
+        farm_region = world.get_region("Farming Access")
         farm_locations = get_location_names_with_ids(FARMING_LOCATIONS)
         farm_region.add_locations(farm_locations, Civ4Location)
 
