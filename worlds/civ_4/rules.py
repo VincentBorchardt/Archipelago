@@ -207,6 +207,7 @@ def set_gp_rules(world: Civ4World) -> None:
 
 
 def set_resource_region_rules(world: Civ4World) -> None:
+    road_access = world.get_entrance("Can Road Resources")
     mining_access = world.get_entrance("Can Connect Mining Resources")
     farm_access = world.get_entrance("Can Connect Farming Resources")
     calendar_access = world.get_entrance("Can Connect Calendar Resources")
@@ -216,6 +217,7 @@ def set_resource_region_rules(world: Civ4World) -> None:
     masonry_access = world.get_entrance("Can Connect Masonry Resources")
     winery_access = world.get_entrance("Can Connect Winery Resources")
     oil_access = world.get_entrance("Can Connect Oil Resources")
+    world.set_rule(road_access, Has("The Wheel"))
     world.set_rule(mining_access, Has("Mining"))
     world.set_rule(farm_access, Has("Agriculture"))
     world.set_rule(calendar_access, Has("Calendar") & Has("Iron Working"))

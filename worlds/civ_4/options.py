@@ -21,7 +21,7 @@ class TechsanityEraGates(Range):
     display_name = "Gate Technology Locations by Era"
 
     range_start = 0
-    range_end = 100
+    range_end = 90
     default = 50
 
 class GPsanity(Range):
@@ -79,6 +79,11 @@ class UniqueBuildingItems(Toggle):
     display_name = "Unique Buildings"
 
 class PeekableLocations(Choice):
+    """
+    Lets you see what items are on various locations.
+    Great People lets you see what's on a GP "bulb" like you would a technology.
+    All also adds peeks to wonders and techs (currently not implemented).
+    """
     display_name = "Peekable Locations"
     option_none = 0
     option_great_people = 1

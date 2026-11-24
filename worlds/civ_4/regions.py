@@ -78,6 +78,7 @@ def create_gp_regions(world: Civ4World) -> list[Region]:
     return regions
 
 def create_resource_regions(world: Civ4World) -> list[Region]:
+    road_access = Region("Road Access", world.player, world.multiworld)
     mining_access = Region("Mining Access", world.player, world.multiworld)
     farming_access = Region("Farming Access", world.player, world.multiworld)
     calendar_access = Region("Calendar Access", world.player, world.multiworld)
@@ -89,6 +90,7 @@ def create_resource_regions(world: Civ4World) -> list[Region]:
     oil_access = Region("Oil Access", world.player, world.multiworld)
 
     regions = [
+        road_access,
         mining_access,
         farming_access,
         calendar_access,
@@ -138,6 +140,7 @@ def connect_regions(world: Civ4World) -> None:
         initial.connect(great_merchant, "Can Produce Great Merchant")
 
     if world.options.resourcesanity:
+        roads = world.get_region("Road Access")
         mining = world.get_region("Mining Access")
         farming = world.get_region("Farming Access")
         calendar = world.get_region("Calendar Access")
@@ -147,14 +150,15 @@ def connect_regions(world: Civ4World) -> None:
         masonry = world.get_region("Masonry Access")
         winery = world.get_region("Winery Access")
         oil = world.get_region("Oil Access")
-        initial.connect(mining, "Can Connect Mining Resources")
-        initial.connect(farming, "Can Connect Farming Resources")
-        initial.connect(calendar, "Can Connect Calendar Resources")
-        initial.connect(hunting, "Can Connect Hunting Resources")
+        initial.connect(roads, "Can Produce Roads")
+        roads.connect(mining, "Can Connect Mining Resources")
+        roads.connect(farming, "Can Connect Farming Resources")
+        roads.connect(calendar, "Can Connect Calendar Resources")
+        roads.connect(hunting, "Can Connect Hunting Resources")
         initial.connect(fishing, "Can Connect Fishing Resources")
-        initial.connect(animal, "Can Connect Animal Resources")
-        initial.connect(masonry, "Can Connect Masonry Resources")
-        initial.connect(winery, "Can Connect Winery Resources")
-        initial.connect(oil, "Can Connect Oil Resources")
+        roads.connect(animal, "Can Connect Animal Resources")
+        roads.connect(masonry, "Can Connect Masonry Resources")
+        roads.connect(winery, "Can Connect Winery Resources")
+        roads.connect(oil, "Can Connect Oil Resources")
 
 
