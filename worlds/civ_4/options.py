@@ -21,7 +21,7 @@ class TechsanityEraGates(Range):
     display_name = "Gate Technology Locations by Era"
 
     range_start = 0
-    range_end = 90
+    range_end = 80
     default = 50
 
 class GPsanity(Range):

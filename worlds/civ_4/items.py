@@ -62,13 +62,13 @@ def create_all_items(world: Civ4World) -> None:
             itempool.append(world.create_item("Great General"))
             itempool.append(world.create_item("Great Spy"))
 
-    unique_buildables = create_unique_buildables_list(world)
+    number_of_items = len(itempool)
+    unique_buildables = create_unique_buildables_list(world, number_of_items)
     for item in unique_buildables:
         itempool.append(world.create_item(item))
 
 
-    # Creating filler items works the same as any other item. But there is a question:
-    # How many filler items do we actually need to create?
+    # Creating filler items works the same as any other item. But how many filler items do we actually need to create?
     # We can compare the size of our itempool so far to the number of locations in our world.
     # The length of our itempool is easy to determine, since we have it as a list.
     number_of_items = len(itempool)
@@ -87,17 +87,17 @@ def create_all_items(world: Civ4World) -> None:
     # Anyway. With our world's itempool finalized, we now need to submit it to the multiworld itempool.
     world.multiworld.itempool += itempool
 
-def create_unique_buildables_list(world: Civ4World) -> list[str]:
-    unique_buildables = []
+def create_unique_buildables_list(world: Civ4World, number_of_items) -> list[str]:
+    all_unique_buildables = []
     if world.options.unique_units:
-        unique_buildables.extend(UNIQUE_UNIT_ARRAY)
+        all_unique_buildables.extend(UNIQUE_UNIT_ARRAY)
     if world.options.unique_buildings:
-        unique_buildables.extend(UNIQUE_BUILDING_ARRAY)
+        all_unique_buildables.extend(UNIQUE_BUILDING_ARRAY)
     # TODO extend unique buildings into unique_buildables once I implement them
-    if len(unique_buildables) > 0:
-        number_of_unfilled_locations = len(world.multiworld.get_unfilled_locations(world.player))
-        if number_of_unfilled_locations >= len(unique_buildables):
-            return unique_buildables
+    if len(all_unique_buildables) > 0:
+        current_unfilled_locations = len(world.multiworld.get_unfilled_locations(world.player)) - number_of_items
+        if current_unfilled_locations >= len(all_unique_buildables):
+            return all_unique_buildables
         else:
-            return world.random.sample(unique_buildables, number_of_unfilled_locations)
+            return world.random.sample(all_unique_buildables, current_unfilled_locations)
     return []
