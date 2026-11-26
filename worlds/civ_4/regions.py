@@ -150,7 +150,7 @@ def connect_regions(world: Civ4World) -> None:
         masonry = world.get_region("Masonry Access")
         winery = world.get_region("Winery Access")
         oil = world.get_region("Oil Access")
-        initial.connect(roads, "Can Produce Roads")
+        initial.connect(roads, "Can Road Resources")
         roads.connect(mining, "Can Connect Mining Resources")
         roads.connect(farming, "Can Connect Farming Resources")
         roads.connect(calendar, "Can Connect Calendar Resources")
